@@ -53,5 +53,5 @@ dsh-pet 0.3.8 官方发布的是**单一 webm 素材集**（一个 npm 包、一
 本报告按官方清单的三个功能组统计：核心 11 + 随机 80 + 事件 15 = 106。
 官方另有一个**可选的 macOS 专用 .mov 包**（GitHub Release `assets-mov`，106 个文件、与 webm 一一对应），Windows 播放不使用，本次未下载（避免重复下载同一批动画的另一种容器）。
 
-> 生成脚本：`G:\Deepseek_Project\pet-assets-audit\audit-pet-assets.mjs`
-> 逐文件清单：`G:\Deepseek_Project\pet-assets-audit\inventory.csv`
+> 生成脚本：`G:\DeepSeek-Project\test\pet-assets-audit\audit-pet-assets.mjs`
+> 逐文件清单：`G:\DeepSeek-Project\test\pet-assets-audit\inventory.csv`

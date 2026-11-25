@@ -1,13 +1,16 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """Build the 2026 annual village work summary from the template's design."""
+import copy
+import os
+
 from docx import Document
 from docx.shared import Pt
 from docx.oxml.ns import qn
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-import copy
 
 TEMPLATE = r"C:\Users\hp\Desktop\模板  26年驻村总结.docx"
-OUT = r"G:\Deepseek_Project\output\2026年六户村驻村工作总结.docx"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUT = os.path.join(ROOT, "output", "2026年六户村驻村工作总结.docx")
 
 FONT = "仿宋_GB2312"
 SIZE = Pt(16)

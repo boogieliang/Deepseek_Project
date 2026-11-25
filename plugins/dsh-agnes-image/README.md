@@ -71,7 +71,7 @@
 ```powershell
 # 当前机器（桌面版 profile = desktop）
 & "C:\Users\hp\AppData\Local\Programs\DeepSeek Harness\resources\runtime\cli\bin\dsh.cmd" `
-  plugin --profile desktop add "file:G:\Deepseek_Project\plugins\dsh-agnes-image"
+  plugin --profile desktop add "file:G:\DeepSeek-Project\test\plugins\dsh-agnes-image"
 ```
 
 或使用自带脚本（`install.cmd` 会绕过 PowerShell 执行策略；会按需写入凭证，不回显 key）：
@@ -92,7 +92,7 @@
 ```powershell
 $dsh = "C:\Users\hp\AppData\Local\Programs\DeepSeek Harness\resources\runtime\cli\bin\dsh.cmd"
 & $dsh plugin --profile desktop remove dsh-agnes-image
-& $dsh plugin --profile desktop add "file:G:\Deepseek_Project\plugins\dsh-agnes-image"
+& $dsh plugin --profile desktop add "file:G:\DeepSeek-Project\test\plugins\dsh-agnes-image"
 ```
 
 也可以直接把 `index.js`、`lib\*` 拷进
@@ -164,7 +164,7 @@ refs:
 ## 测试
 
 ```powershell
-cd G:\Deepseek_Project\plugins\dsh-agnes-image
+cd G:\DeepSeek-Project\test\plugins\dsh-agnes-image
 
 # 纯单元测试，不联网、不花钱
 node --test test/unit.test.js
