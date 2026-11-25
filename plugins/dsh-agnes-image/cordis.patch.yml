@@ -1,0 +1,7 @@
+# Agnes 生图插件：把模型面向的 agnes_generate_image 工具挂进工具注册表。
+# apiKeyEnv 指向凭据引用，默认从 $DSH_HOME/.credentials.yaml 的 refs 读取。
+- insert:
+    - id: agnes-image
+      name: dsh-agnes-image
+      config:
+        apiKeyEnv: AGNES_API_KEY

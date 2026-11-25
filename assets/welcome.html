@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>智填 · 示例表单</title>
+<style>
+  :root {
+    --ink: #14213d;
+    --muted: #61708b;
+    --line: #dbe3f0;
+    --brand: #2563eb;
+    --brand-soft: #eef4ff;
+    --ok: #16a34a;
+    --bg: #f4f7fc;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 42px 24px 80px; }
+  .hero {
+    background: linear-gradient(135deg, #14213d 0%, #1e3a8a 58%, #2563eb 100%);
+    color: #fff; border-radius: 24px; padding: 38px 42px; margin-bottom: 26px;
+    box-shadow: 0 18px 50px rgba(30, 58, 138, .22); position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ""; position: absolute; width: 300px; height: 300px; right: -90px; top: -130px;
+    border-radius: 50%; background: rgba(255,255,255,.08);
+  }
+  .hero .eyebrow { font-size: 13px; letter-spacing: .14em; opacity: .72; text-transform: uppercase; }
+  .hero h1 { margin: 12px 0 10px; font-size: 34px; line-height: 1.2; }
+  .hero p { margin: 0; max-width: 700px; line-height: 1.85; color: #dbe7ff; font-size: 14px; }
+  .tips { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+  .tip { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.18); padding: 7px 12px; border-radius: 999px; font-size: 12px; }
+  .card {
+    background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 28px 32px;
+    box-shadow: 0 10px 32px rgba(20, 33, 61, .05); margin-bottom: 20px;
+  }
+  .card h2 { margin: 0 0 20px; font-size: 17px; display: flex; align-items: center; gap: 10px; }
+  .card h2 span { width: 26px; height: 26px; display: inline-grid; place-items: center; background: var(--brand-soft); color: var(--brand); border-radius: 8px; font-size: 13px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 24px; }
+  .full { grid-column: 1 / -1; }
+  label.field { display: block; }
+  label.field > span { display: block; font-size: 13px; color: #33415c; margin-bottom: 7px; font-weight: 600; }
+  label.field > span em { color: #e5484d; font-style: normal; margin-left: 2px; }
+  input[type=text], input[type=tel], input[type=email], input[type=date], input[type=number], select, textarea {
+    width: 100%; border: 1px solid #cfd9e8; background: #fbfdff; border-radius: 10px;
+    padding: 11px 13px; font: inherit; font-size: 14px; color: var(--ink); outline: none;
+    transition: border-color .15s, box-shadow .15s, background .15s;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--brand); background: #fff; box-shadow: 0 0 0 4px rgba(37, 99, 235, .11);
+  }
+  textarea { min-height: 86px; resize: vertical; }
+  .radios { display: flex; gap: 22px; padding-top: 8px; }
+  .radios label { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; }
+  .hint { margin-top: 6px; font-size: 12px; color: var(--muted); }
+  .actions { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+  button.primary {
+    border: 0; background: var(--brand); color: #fff; padding: 12px 22px; border-radius: 10px;
+    font: inherit; font-weight: 600; cursor: pointer; box-shadow: 0 8px 20px rgba(37,99,235,.24);
+  }
+  button.primary:hover { background: #1d4ed8; }
+  button.ghost { border: 1px solid var(--line); background: #fff; color: #33415c; padding: 11px 18px; border-radius: 10px; font: inherit; cursor: pointer; }
+  pre#out {
+    display: none; margin: 18px 0 0; background: #0f172a; color: #dbeafe; border-radius: 12px;
+    padding: 16px; font-size: 12px; line-height: 1.6; overflow: auto; max-height: 280px;
+  }
+  iframe { width: 100%; border: 1px solid var(--line); border-radius: 12px; background: #fbfdff; }
+  .foot { color: var(--muted); font-size: 12px; text-align: center; margin-top: 26px; line-height: 1.8; }
+  @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } .hero { padding: 28px 24px; } .card { padding: 22px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Smart Form Filler · Local Demo</div>
+    <h1>智填表单助手</h1>
+    <p>这是一个完全本地运行的示例页面，用来体验“自动识别 + 一键填写”。在左侧填写你的资料，然后点击右上角的「扫描页面」和「智能填写」即可。程序会按字段的中文标签、占位提示、name/id、autocomplete 和控件类型综合判断。</p>
+    <div class="tips">
+      <span class="tip">支持文本框 / 下拉框 / 单选 / 复选</span>
+      <span class="tip">支持 iframe 与 Shadow DOM</span>
+      <span class="tip">兼容 React / Vue 受控输入</span>
+    </div>
+  </header>
+
+  <form id="demo-form" autocomplete="on" onsubmit="return false;">
+    <section class="card">
+      <h2><span>1</span>基本信息</h2>
+      <div class="grid">
+        <label class="field">
+          <span>姓名 <em>*</em></span>
+          <input type="text" name="fullname" autocomplete="name" placeholder="请输入您的真实姓名" required>
+        </label>
+        <label class="field">
+          <span>性别</span>
+          <div class="radios">
+            <label><input type="radio" name="gender" value="male"> 男</label>
+            <label><input type="radio" name="gender" value="female"> 女</label>
+            <label><input type="radio" name="gender" value="other"> 其他</label>
+          </div>
+        </label>
+        <label class="field">
+          <span>出生日期</span>
+          <input type="date" name="birthday" autocomplete="bday">
+        </label>
+        <label class="field">
+          <span>身份证号</span>
+          <input type="text" name="id_no" placeholder="请输入身份证号码" maxlength="18">
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span>2</span>联系方式</h2>
+      <div class="grid">
+        <label class="field">
+          <span>手机号码 <em>*</em></span>
+          <input type="tel" name="mobile" autocomplete="tel" placeholder="11 位手机号">
+        </label>
+        <label class="field">
+          <span>电子邮箱</span>
+          <input type="email" name="email" autocomplete="email" placeholder="name@example.com">
+        </label>
+        <label class="field">
+          <span>确认邮箱</span>
+          <input type="email" name="email_confirm" placeholder="请再次输入邮箱">
+        </label>
+        <label class="field">
+          <span>微信号</span>
+          <div id="wechat-host"></div>
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span>3</span>地址信息</h2>
+      <div class="grid">
+        <label class="field">
+          <span>省份</span>
+          <select name="province" autocomplete="address-level1">
+            <option value="">请选择省份</option>
+            <option>北京市</option><option>上海市</option><option>广东省</option>
+            <option>浙江省</option><option>江苏省</option><option>四川省</option><option>湖北省</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>城市</span>
+          <input type="text" name="city" autocomplete="address-level2" placeholder="所在城市">
+        </label>
+        <label class="field full">
+          <span>详细地址</span>
+          <textarea name="address" autocomplete="street-address" placeholder="街道、门牌号、小区楼栋等"></textarea>
+        </label>
+        <label class="field">
+          <span>邮政编码</span>
+          <input type="text" name="zip" autocomplete="postal-code" placeholder="6 位邮编">
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span>4</span>工作与教育</h2>
+      <div class="grid">
+        <label class="field">
+          <span>公司名称</span>
+          <input type="text" name="company" autocomplete="organization" placeholder="您目前就职的公司">
+        </label>
+        <label class="field">
+          <span>职位</span>
+          <input type="text" name="job_title" autocomplete="organization-title" placeholder="例如：产品经理">
+        </label>
+        <label class="field">
+          <span>最高学历</span>
+          <select name="education">
+            <option value="">请选择学历</option>
+            <option>高中及以下</option><option>大专</option><option>本科</option>
+            <option>硕士</option><option>博士</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>毕业院校</span>
+          <input type="text" name="university" placeholder="学校名称">
+        </label>
+        <label class="field">
+          <span>所学专业</span>
+          <input type="text" name="major" placeholder="专业名称">
+        </label>
+        <label class="field">
+          <span>期望薪资</span>
+          <input type="text" name="expected_salary" placeholder="例如：20k-30k">
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span>5</span>补充信息</h2>
+      <div class="grid">
+        <label class="field full">
+          <span>备注</span>
+          <textarea name="notes" placeholder="还有什么想告诉我们的？"></textarea>
+        </label>
+        <label class="field full" style="display:flex;gap:9px;align-items:flex-start;">
+          <input type="checkbox" id="agree" name="agree" style="margin-top:3px;">
+          <span style="font-weight:400;color:#475569;">我已阅读并同意《隐私政策》与《服务条款》</span>
+        </label>
+      </div>
+      <div class="actions">
+        <button type="button" class="primary" onclick="preview()">预览填写结果</button>
+        <button type="button" class="ghost" onclick="document.getElementById('demo-form').reset()">重置表单</button>
+      </div>
+      <pre id="out"></pre>
+    </section>
+  </form>
+
+  <section class="card">
+    <h2><span>6</span>iframe 测试</h2>
+    <p class="hint" style="margin-top:-8px;margin-bottom:14px;">下面的字段位于同源 iframe 中，用来验证跨框架识别。</p>
+    <iframe id="frame" title="iframe 示例" srcdoc='<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{font-family:Microsoft YaHei UI,sans-serif;padding:16px;margin:0;color:#14213d}label{display:block;font-size:13px;font-weight:600;margin-bottom:7px}input{width:100%;box-sizing:border-box;border:1px solid #cfd9e8;border-radius:10px;padding:10px 12px;font:inherit}</style></head><body><label for="school">毕业院校（iframe）</label><input id="school" name="school_iframe" placeholder="请输入学校名称"></body></html>'></iframe>
+  </section>
+
+  <p class="foot">所有内容仅在本机浏览器中处理，不会上传到任何服务器。<br>关闭本页不会影响已保存的资料。</p>
+</div>
+
+<script>
+  // A tiny Shadow DOM field to exercise the deep scanner.
+  const host = document.getElementById('wechat-host');
+  const root = host.attachShadow({ mode: 'open' });
+  root.innerHTML = `
+    <style>
+      label { display:block; font-size:13px; font-weight:600; color:#33415c; margin-bottom:7px; }
+      input { width:100%; box-sizing:border-box; border:1px solid #cfd9e8; background:#fbfdff; border-radius:10px; padding:11px 13px; font:inherit; font-size:14px; outline:none; }
+      input:focus { border-color:#2563eb; box-shadow:0 0 0 4px rgba(37,99,235,.11); }
+    </style>
+    <label for="wechat">微信号（Shadow DOM）</label>
+    <input id="wechat" name="wechat" placeholder="请输入微信号">
+  `;
+
+  function preview() {
+    const form = document.getElementById('demo-form');
+    const data = {};
+    for (const el of form.querySelectorAll('input, select, textarea')) {
+      if (!el.name || el.type === 'radio') continue;
+      data[el.name] = el.type === 'checkbox' ? el.checked : el.value;
+    }
+    const shadowInput = root.querySelector('input');
+    data.wechat_shadow = shadowInput ? shadowInput.value : '';
+    const out = document.getElementById('out');
+    out.style.display = 'block';
+    out.textContent = JSON.stringify(data, null, 2);
+  }
+</script>
+</body>
+</html>

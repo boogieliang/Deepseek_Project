@@ -1,0 +1,32 @@
+{
+  "name": "dsh-agnes-image",
+  "version": "0.1.0",
+  "description": "Agnes Image 2.5 Flash text-to-image, image-to-image, and multi-image composition tools for DeepSeek Harness",
+  "license": "MIT",
+  "type": "module",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "lib",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test test/unit.test.js",
+    "test:live": "node test/live.mjs"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh-plugin",
+    "image-generation",
+    "agnes"
+  ]
+}

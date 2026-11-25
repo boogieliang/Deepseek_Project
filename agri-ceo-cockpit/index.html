@@ -1,0 +1,1152 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>土地乐 · 农资 CEO 驾驶舱</title>
+<style>
+:root{
+  --bg:#08120e; --panel:#0f1c16; --panel2:#13241c;
+  --line:rgba(255,255,255,.075); --line2:rgba(255,255,255,.14);
+  --text:#e9f2ec; --muted:#9cb8ab; --dim:#718e80;
+  --green:#3ddc97; --green2:#1f9d68; --gold:#e8b559;
+  --red:#f0605d; --blue:#57a9e6; --violet:#a58bfa;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC","Hiragino Sans GB",system-ui,-apple-system,sans-serif;
+  font-size:13px; line-height:1.55; -webkit-font-smoothing:antialiased;
+  padding-bottom:40px;
+}
+.bgfx{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(900px 420px at 12% -8%, rgba(61,220,151,.13), transparent 62%),
+    radial-gradient(760px 380px at 88% -12%, rgba(232,181,89,.10), transparent 60%),
+    radial-gradient(700px 500px at 50% 110%, rgba(87,169,230,.06), transparent 65%);
+}
+.wrap{position:relative;z-index:1;max-width:1560px;margin:0 auto;padding:0 22px}
+.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+
+/* ---------- header ---------- */
+header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+  background:linear-gradient(180deg,rgba(8,18,14,.94),rgba(8,18,14,.72));
+  border-bottom:1px solid var(--line)}
+.topbar{display:flex;align-items:center;gap:16px;height:62px}
+.brand{display:flex;align-items:center;gap:11px;margin-right:6px}
+.logo{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;
+  background:linear-gradient(145deg,#2ec98a,#0f7a52);box-shadow:0 4px 16px rgba(46,201,138,.28)}
+.brand h1{font-size:15.5px;font-weight:650;letter-spacing:.04em;line-height:1.2}
+.brand p{font-size:9.5px;color:var(--dim);letter-spacing:.22em;text-transform:uppercase}
+.spacer{flex:1}
+.ctrl{display:flex;align-items:center;gap:8px}
+.seg{display:flex;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:9px;padding:2px}
+.seg button{background:none;border:0;color:var(--muted);font:inherit;font-size:12px;
+  padding:5px 12px;border-radius:7px;cursor:pointer;transition:.18s}
+.seg button.on{background:rgba(61,220,151,.16);color:var(--green);box-shadow:inset 0 0 0 1px rgba(61,220,151,.3)}
+select{background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--text);
+  font:inherit;font-size:12px;padding:7px 10px;border-radius:9px;outline:none;cursor:pointer}
+select:focus{border-color:rgba(61,220,151,.4)}
+.bell{position:relative;width:36px;height:36px;border-radius:10px;border:1px solid var(--line);
+  background:rgba(255,255,255,.03);display:grid;place-items:center;cursor:pointer}
+.bell b{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:9.5px;
+  font-weight:600;min-width:16px;height:16px;border-radius:8px;display:grid;place-items:center;padding:0 4px}
+.live{display:flex;align-items:center;gap:6px;font-size:10.5px;color:var(--dim)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(61,220,151,.6);animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(61,220,151,.55)}70%{box-shadow:0 0 0 7px rgba(61,220,151,0)}100%{box-shadow:0 0 0 0 rgba(61,220,151,0)}}
+
+/* ---------- kpi ---------- */
+.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:18px 0 14px}
+.kpi{position:relative;background:linear-gradient(170deg,var(--panel2),var(--panel));
+  border:1px solid var(--line);border-radius:var(--r);padding:14px 15px 12px;overflow:hidden;
+  transition:transform .2s,border-color .2s}
+.kpi:hover{transform:translateY(-2px);border-color:var(--line2)}
+.kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2.5px;background:var(--ac)}
+.kpi-h{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.kpi-l{font-size:11.5px;color:var(--muted);letter-spacing:.03em}
+.kpi-v{font-size:25px;font-weight:640;letter-spacing:-.02em;margin:5px 0 1px;display:flex;align-items:baseline;gap:4px}
+.kpi-v em{font-size:11.5px;font-weight:400;color:var(--muted);font-style:normal}
+.kpi-f{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px}
+.kpi-n{font-size:10.5px;color:var(--dim)}
+.chip{font-size:10.5px;padding:1px 6px;border-radius:5px;font-weight:600;white-space:nowrap}
+.up{color:var(--green);background:rgba(61,220,151,.13)}
+.down{color:var(--red);background:rgba(240,96,93,.13)}
+.flat{color:var(--muted);background:rgba(255,255,255,.06)}
+.spark{display:block;width:100%;height:30px;margin-top:8px;opacity:.9}
+
+/* ---------- tabs ---------- */
+.tabs{display:flex;gap:3px;border-bottom:1px solid var(--line);margin-bottom:16px;overflow-x:auto}
+.tabs button{background:none;border:0;color:var(--muted);font:inherit;font-size:13px;font-weight:500;
+  padding:10px 16px;cursor:pointer;position:relative;white-space:nowrap;transition:.18s}
+.tabs button:hover{color:var(--text)}
+.tabs button.on{color:var(--text)}
+.tabs button.on::after{content:"";position:absolute;left:14px;right:14px;bottom:-1px;height:2px;
+  background:linear-gradient(90deg,var(--green),rgba(61,220,151,.2));border-radius:2px}
+
+/* ---------- grid / cards ---------- */
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:13px}
+.view{display:none}
+.view.on{display:grid;align-items:start;animation:rise .35s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.c3{grid-column:span 3}.c4{grid-column:span 4}.c5{grid-column:span 5}
+.c6{grid-column:span 6}.c7{grid-column:span 7}.c8{grid-column:span 8}.c12{grid-column:span 12}
+.card{background:linear-gradient(178deg,var(--panel2),var(--panel));border:1px solid var(--line);
+  border-radius:var(--r);padding:15px 17px 14px;position:relative;min-width:0}
+.card-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.card-t{font-size:13px;font-weight:600;letter-spacing:.02em;display:flex;align-items:center;gap:7px}
+.card-t i{width:3px;height:12px;border-radius:2px;background:var(--green);display:inline-block}
+.card-s{font-size:10.5px;color:var(--dim);font-weight:400}
+.tag{font-size:10px;color:var(--muted);border:1px solid var(--line);padding:2px 7px;border-radius:5px;white-space:nowrap}
+.foot{font-size:10.5px;color:var(--dim);margin-top:10px;padding-top:9px;border-top:1px dashed var(--line);
+  display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.foot b{color:var(--muted);font-weight:500}
+.src{display:flex;gap:5px;flex-wrap:wrap}
+.src span{font-size:9.5px;color:var(--dim);background:rgba(255,255,255,.04);padding:1px 6px;border-radius:4px}
+.note{border-left:2px solid var(--gold);background:rgba(232,181,89,.07);padding:7px 10px;border-radius:0 7px 7px 0;
+  font-size:11.5px;color:#d9c9a6;margin-top:10px}
+.note b{color:var(--gold)}
+
+/* bars */
+.hb{display:grid;grid-template-columns:64px 1fr auto;align-items:center;gap:9px;margin-bottom:8px;font-size:11.5px}
+.hb-n{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hb-t{height:7px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden}
+.hb-t i{display:block;height:100%;border-radius:4px;transition:width .6s}
+.hb-v{font-variant-numeric:tabular-nums;font-weight:600;font-size:11px;color:var(--text);min-width:44px;text-align:right}
+
+/* list */
+.li{display:flex;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line);align-items:flex-start}
+.li:last-child{border-bottom:0;padding-bottom:0}
+.li-i{width:20px;height:20px;border-radius:6px;display:grid;place-items:center;font-size:10px;font-weight:700;flex:none;margin-top:1px}
+.li-b{flex:1;min-width:0}
+.li-t{font-size:12px;font-weight:550;color:#dfeae4;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.li-d{font-size:10.8px;color:var(--dim);margin-top:2px;line-height:1.5}
+.li-v{font-size:12px;font-weight:650;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* table */
+table{width:100%;border-collapse:collapse;font-size:11.5px}
+th{text-align:left;font-weight:500;color:var(--dim);font-size:10.5px;padding:0 8px 8px;
+  border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:8px;border-bottom:1px solid rgba(255,255,255,.04);color:#cfdcd5;vertical-align:middle}
+tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:rgba(61,220,151,.04)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.pill{font-size:10.5px;padding:2px 8px;border-radius:20px;font-weight:600;white-space:nowrap;display:inline-block}
+.p-g{color:var(--green);background:rgba(61,220,151,.12)}
+.p-y{color:var(--gold);background:rgba(232,181,89,.13)}
+.p-r{color:var(--red);background:rgba(240,96,93,.13)}
+.p-b{color:var(--blue);background:rgba(87,169,230,.13)}
+.p-m{color:var(--muted);background:rgba(255,255,255,.06)}
+
+/* funnel */
+.fn{margin-top:2px}
+.fn-row{display:grid;grid-template-columns:78px 1fr;gap:10px;align-items:center;margin-bottom:7px}
+.fn-l{font-size:11px;color:var(--muted)}
+.fn-b{height:30px;border-radius:6px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 10px;font-size:11px;font-weight:600;color:#04241a;transition:width .6s}
+.fn-r{font-size:10.5px;color:var(--dim)}
+
+/* heat */
+.heat{border-collapse:separate;border-spacing:3px;table-layout:fixed}
+.heat th{font-size:10px;color:var(--dim);font-weight:500;text-align:center;padding:0 0 3px;border:0}
+.heat th:first-child{text-align:left;padding-left:2px}
+.heat td{text-align:center;font-size:10.5px;font-weight:600;border-radius:5px;padding:7px 2px;border:0;
+  font-variant-numeric:tabular-nums}
+.heat tbody tr:hover td{outline:1px solid rgba(255,255,255,.22)}
+
+/* legend */
+.lg{display:flex;flex-wrap:wrap;gap:10px;font-size:10.5px;color:var(--muted)}
+.lg span{display:flex;align-items:center;gap:5px}
+.lg i{width:8px;height:8px;border-radius:2px;display:inline-block}
+
+/* feature cards */
+.fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.fcard{background:linear-gradient(165deg,var(--panel2),var(--panel));border:1px solid var(--line);
+  border-radius:12px;padding:14px;transition:.2s;position:relative;overflow:hidden;
+  display:flex;flex-direction:column}
+.fcard:hover{border-color:rgba(61,220,151,.35);transform:translateY(-2px)}
+.fcard .ic{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:14px;
+  background:rgba(61,220,151,.1);margin-bottom:9px}
+.fcard h4{font-size:12.5px;font-weight:600;margin-bottom:4px}
+.fcard p{font-size:10.8px;color:var(--dim);line-height:1.55;min-height:50px;flex:1}
+.fcard .ft{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.mini{font-size:9.5px;padding:1px 6px;border-radius:4px;background:rgba(255,255,255,.05);color:var(--muted)}
+
+/* misc */
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:8px}
+.kv div{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.kv span{font-size:10px;color:var(--dim);display:block}
+.kv b{font-size:15px;font-weight:640;font-variant-numeric:tabular-nums}
+.cal{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;margin:4px 0 8px}
+.cal i{height:26px;border-radius:3px;position:relative;display:block}
+.cal-l{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;font-size:8.5px;color:var(--dim);text-align:center}
+footer{max-width:1560px;margin:22px auto 0;padding:0 22px;font-size:10.5px;color:var(--dim);
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+@media(max-width:1400px){
+  .kpis{grid-template-columns:repeat(3,1fr)}
+  .fgrid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:1080px){
+  .c3,.c4,.c5,.c6,.c7,.c8{grid-column:span 12}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .tabs button{padding:10px 11px;font-size:12px}
+}
+@media(max-width:700px){
+  .wrap{padding:0 12px}
+  .topbar{height:auto;flex-wrap:wrap;padding:10px 0;gap:9px}
+  .brand h1{font-size:13.5px}
+  .live{display:none}
+  .spacer{display:none}
+  .ctrl{width:100%;justify-content:space-between}
+  .kpis{gap:8px;margin:12px 0 10px}
+  .kpi{padding:10px 11px 9px;min-width:0}
+  .kpi-h{min-width:0}
+  .kpi-l{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .kpi-v{font-size:19px}
+  .chip{font-size:9.5px;padding:1px 5px}
+  .spark{height:22px}
+  .card{padding:12px 12px 11px}
+  .fgrid{grid-template-columns:1fr}
+  table{display:block;overflow-x:auto;white-space:nowrap}
+  .heat{display:table;white-space:normal}
+}
+</style>
+</head>
+<body>
+<div class="bgfx"></div>
+
+<header>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#04241a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 20h18"/><path d="M6 20V10l6-5 6 5v10"/><path d="M10 20v-5h4v5"/>
+          </svg>
+        </div>
+        <div>
+          <h1>土地乐 · CEO 驾驶舱</h1>
+          <p>Agri-Input CEO Cockpit</p>
+        </div>
+      </div>
+      <div class="spacer"></div>
+      <div class="ctrl">
+        <span class="live"><i class="dot"></i>数据截至 2026-10-26 24:00</span>
+        <select id="region"></select>
+        <div class="seg" id="period">
+          <button data-p="月">本月</button>
+          <button data-p="季">本季度</button>
+          <button data-p="年" class="on">本年度</button>
+        </div>
+        <div class="bell" title="5 条待处理预警">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cb8ab" stroke-width="1.8" stroke-linecap="round">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>
+          </svg>
+          <b>5</b>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="kpis" id="kpis"></section>
+
+  <nav class="tabs" id="tabs">
+    <button data-v="overview" class="on">经营总览</button>
+    <button data-v="sales">销售作战</button>
+    <button data-v="channel">渠道与客户</button>
+    <button data-v="supply">供应链与库存</button>
+    <button data-v="risk">风险与资金</button>
+    <button data-v="insight">智能洞察 · 亮点功能</button>
+  </nav>
+
+  <main>
+    <section class="grid view on" id="view-overview"></section>
+    <section class="grid view" id="view-sales"></section>
+    <section class="grid view" id="view-channel"></section>
+    <section class="grid view" id="view-supply"></section>
+    <section class="grid view" id="view-risk"></section>
+    <section class="grid view" id="view-insight"></section>
+  </main>
+</div>
+
+<footer>
+  <span>演示原型 · 数据为模拟生成，用于功能与交互评审</span>
+  <span>指标口径：ERP 出入库 / 经销商 APP 订单 / 扫码溯源 / 气象与期货行情</span>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============ 工具 ============ */
+  function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return ((t^t>>>14)>>>0)/4294967296}}
+  function hash(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+  function r2(x){return Math.round(x*100)/100}
+  var fmt={
+    money:function(v){return v>=10000?(v/10000).toFixed(2):String(Math.round(v))},
+    wan:function(v){return v>=10000?(v/10000).toFixed(2)+"亿":Math.round(v)+"万"},
+    pct:function(v){return v.toFixed(1)+"%"},
+    int:function(v){return Math.round(v).toLocaleString("zh-CN")}
+  };
+  function bigNum(v){
+    return v>=10000 ? {v:(v/10000).toFixed(2),u:"亿元"} : {v:fmt.int(v),u:"万元"};
+  }
+  function spark(vals,color,w,h){
+    w=w||140;h=h||30;
+    var mx=Math.max.apply(null,vals),mn=Math.min.apply(null,vals),rg=(mx-mn)||1;
+    var pts=vals.map(function(v,i){return [i/(vals.length-1)*w, h-3-((v-mn)/rg)*(h-7)]});
+    var line=pts.map(function(p,i){return (i?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1)}).join(" ");
+    var area=line+" L"+w+" "+h+" L0 "+h+" Z";
+    var id="sg"+Math.floor(Math.random()*1e6);
+    return '<svg class="spark" viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="none">'+
+      '<defs><linearGradient id="'+id+'" x1="0" y1="0" x2="0" y2="1">'+
+      '<stop offset="0" stop-color="'+color+'" stop-opacity=".32"/><stop offset="1" stop-color="'+color+'" stop-opacity="0"/>'+
+      '</linearGradient></defs><path d="'+area+'" fill="url(#'+id+')"/>'+
+      '<path d="'+line+'" fill="none" stroke="'+color+'" stroke-width="1.8" stroke-linecap="round"/></svg>';
+  }
+
+  /* ============ 常量 ============ */
+  var REGIONS=["全国","华北","华东","华中","华南","西南","西北","东北"];
+  var SCALE={"全国":86000,"华北":18600,"华东":21400,"华中":13800,"华南":8600,"西南":10200,"西北":6200,"东北":7200};
+  var SEASON=[.55,.62,1.35,1.52,1.06,1.18,.94,.90,1.28,1.12,.78,.70];
+  var CUR=9; // 10月
+  var MONTHS=["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
+  var CATS=[
+    {n:"复合肥",c:"#3ddc97"},{n:"单质肥",c:"#57a9e6"},{n:"农药",c:"#e8b559"},
+    {n:"种子",c:"#a58bfa"},{n:"农膜",c:"#54d4d0"},{n:"特肥/水溶肥",c:"#f0605d"}
+  ];
+  var CROPS=["小麦","玉米","水稻","大豆","棉花","蔬菜","果树","马铃薯"];
+  var MATRIX=[
+    [19,15,17,12,10,22],[20,16,18,14,12,23],[21,17,20,16,14,24],[18,14,16,13,11,21],
+    [22,18,26,20,16,28],[25,21,32,24,22,33],[26,22,34,25,21,35],[23,19,27,22,18,29]
+  ];
+
+  /* ============ 数据构建 ============ */
+  function buildData(region,period){
+    var R=mulberry32(hash(region+"|"+period));
+    function j(base,p){return base*(1+(R()*2-1)*p)}
+    var scale=SCALE[region]||86000;
+    var annualT=scale*1.06;
+
+    var revenue=SEASON.map(function(s,i){ return j(scale/12*s,0.07) });
+    var target=SEASON.map(function(s){ return annualT/12*s });
+    var margin=SEASON.map(function(s,i){ return r2(j(18.4,0.06)+ (s>1.2?0.9:0) - i*0.04) });
+
+    var idx={ "月":[CUR],"季":[7,8,9],"年":revenue.map(function(_,i){return i}) }[period];
+    var revSum=idx.reduce(function(a,i){return a+revenue[i]},0);
+    var tgtSum=idx.reduce(function(a,i){return a+target[i]},0);
+    var marAvg=idx.reduce(function(a,i){return a+margin[i]},0)/idx.length;
+
+    var R2=mulberry32(hash(region));
+    function j2(base,p){return base*(1+(R2()*2-1)*p)}
+    var collect=j2(86.4,0.05), turnover=j2(68,0.08), dealerCnt=j2(1284,0.06), fill=j2(96.2,0.015);
+    var arTotal=scale*0.41, overdueRate=j2(9.8,0.18);
+
+    var catPct=[38,16,22,12,5,7];
+    if(region==="华东"){catPct=[33,14,27,12,4,10]}
+    if(region==="东北"){catPct=[41,19,17,15,3,5]}
+    if(region==="西北"){catPct=[36,17,18,12,9,8]}
+    if(region==="华南"){catPct=[31,13,30,10,4,12]}
+    var catTot=catPct.reduce(function(a,b){return a+b},0);
+    var category=CATS.map(function(c,i){
+      return {name:c.n,color:c.c,pct:catPct[i]/catTot*100,val:revSum*catPct[i]/catTot,yoy:r2(j(6,0.9))};
+    });
+
+    var regList=(region==="全国"?["华北","华东","华中","华南","西南","西北","东北"]:[region]);
+    var regions=regList.map(function(nm){
+      var sc=SCALE[nm]/scale;
+      var rev=revSum*sc*j(1,0.12), tgt=tgtSum*sc*j(1,0.05);
+      return {name:nm,rev:rev,target:tgt,rate:rev/tgt*100};
+    }).sort(function(a,b){return b.rev-a.rev});
+
+    var alerts=[
+      {lv:"r",t:"赊销逾期 · 河北邢台",d:"「丰泽农资」逾期 42 天，余额 86.4 万，信用额度使用 118%",v:"-86.4 万",act:"冻结发货 / 转法务"},
+      {lv:"y",t:"临期库存 · 山东寿光",d:"25% 吡唑醚菌酯 SC 批次 A2409 剩余 63 天，库存 1,240 箱",v:"占用 178 万",act:"调往蔬菜区促销"},
+      {lv:"y",t:"备货缺口 · 河南周口",d:"小麦返青肥窗口 12 天后开启，45%S(15-15-15) 预计缺口 320 吨",v:"潜在 96 万",act:"紧急调拨"},
+      {lv:"b",t:"竞品异动 · 江苏盐城",d:"「绿丰」同类复合肥终端价下调 80 元/吨，价差扩大至 5.2%",v:"毛利 -0.9pt",act:"启动价格授权"},
+      {lv:"r",t:"窜货预警 · 四川眉山",d:"3 个乡镇扫码记录异常 217 条，疑跨区低价倾销",v:"冲击 42 万",act:"核查经销商"}
+    ];
+
+    var calendar=[.4,.5,1,.95,.7,.85,.6,.55,.9,.75,.45,.35];
+    var windows=[
+      {d:"11-02 起 12 天",crop:"冬小麦",act:"返青肥备货高峰",hot:true},
+      {d:"11-08 起 20 天",crop:"大棚蔬菜",act:"灰霉病防治用药",hot:true},
+      {d:"11-15 起 30 天",crop:"柑橘",act:"采后恢复肥 + 清园剂"},
+      {d:"12-01 起 45 天",crop:"冬储",act:"经销商打款锁价窗口"}
+    ];
+
+    var funnel=[
+      {n:"线索",v:1860},{n:"意向",v:1120},{n:"报价",v:760},{n:"签约",v:512},{n:"回款",v:431}
+    ];
+
+    var priceComp=[
+      {n:"45%S 复合肥",mine:3120,comp:2980},{n:"46% 尿素",mine:2260,comp:2310},
+      {n:"41% 草甘膦 AS",mine:1980,comp:1920},{n:"25% 吡唑醚菌酯",mine:86,comp:92},
+      {n:"甲维·茚虫威",mine:128,comp:121}
+    ];
+
+    var customerMix=[
+      {n:"复购客户",v:62,c:"#3ddc97"},{n:"新客首单",v:23,c:"#57a9e6"},
+      {n:"沉睡唤醒",v:9,c:"#e8b559"},{n:"流失",v:6,c:"#f0605d"}
+    ];
+
+    var reps=[
+      {n:"张建军",rg:"鲁南",v:2860,rate:112,newc:34,svc:46},{n:"李慧敏",rg:"豫东",v:2410,rate:104,newc:28,svc:52},
+      {n:"王振国",rg:"皖北",v:2180,rate:98,newc:19,svc:31},{n:"陈晓东",rg:"苏中",v:1960,rate:96,newc:22,svc:38},
+      {n:"刘丰",rg:"冀南",v:1740,rate:88,newc:12,svc:24},{n:"赵敏",rg:"川西",v:1580,rate:83,newc:15,svc:41},
+      {n:"孙立",rg:"粤西",v:1320,rate:76,newc:9,svc:18}
+    ].map(function(x){return x}).sort(function(a,b){return b.v-a.v});
+
+    var dealersPool=["丰泽农资","沃丰田","金穗农资","绿源植保","田丰农资","禾盛源","农友之家","瑞丰农业",
+      "春华农资","沃土农资","惠农植保","稻香农业","果丰农资","川农科技","鲁供农资","苏农连锁",
+      "皖垦农资","粤丰农业","桂中农服","滇丰农资","秦川农资","辽北农资","吉丰农业","黑土农资",
+      "闽南植保","赣中农资","湘农实业","鄂丰农资","津沽农资","新垦农业"];
+    var R3=mulberry32(hash(region+"|dealer"));
+    function j3(base,p){return base*(1+(R3()*2-1)*p)}
+    var dealers=dealersPool.map(function(nm,i){
+      var yoy=j3(8,1.4), coll=Math.min(99,Math.max(52,j3(86,0.16)));
+      var health=Math.max(35,Math.min(98, 55 + yoy*0.55 + (coll-80)*0.9 + j3(0,0.08)));
+      return {n:nm, rg:REGIONS[1+(i%7)], rev:j3(scale*0.011,0.9), yoy:r2(yoy), coll:coll,
+              health:r2(health), stockD:Math.round(j3(62,0.5)), spoof:i===6||i===17};
+    });
+
+    var quad=dealers.map(function(d){
+      return {n:d.n,x:r2(d.yoy),y:r2(d.coll),s:Math.max(3,Math.min(11,d.rev/140)),h:d.health};
+    });
+
+    var channelStock={ship:[42,48,96,118,74,82,58,52,88,76,44,38],sell:[38,52,88,104,86,79,64,58,92,82,50,41]};
+
+    var bigCust=[
+      {n:"寿光田柳蔬菜合作社",c:"蔬菜 · 1,860 亩",v:420,p:88,act:"推 水溶肥+植保套餐"},
+      {n:"周口商水小麦种植大户",c:"小麦 · 3,200 亩",v:310,p:81,act:"签 返青肥 年度框架"},
+      {n:"眉山晚熟柑橘联合社",c:"柑橘 · 2,400 亩",v:286,p:76,act:"冬季清园 组合方案"},
+      {n:"齐齐哈尔大豆合作社",c:"大豆 · 5,600 亩",v:265,p:58,act:"价格敏感 需 授信支持"},
+      {n:"赣南脐橙产业联合体",c:"脐橙 · 1,200 亩",v:198,p:91,act:"高价值 推 特肥"}
+    ];
+
+    var inventoryMix=[
+      {n:"复合肥",v:3860,c:"#3ddc97"},{n:"单质肥",v:2740,c:"#57a9e6"},
+      {n:"农药",v:2180,c:"#e8b559"},{n:"种子",v:960,c:"#a58bfa"},
+      {n:"农膜",v:420,c:"#54d4d0"},{n:"特肥",v:680,c:"#f0605d"}
+    ];
+    var expiring=[
+      {n:"甲维·茚虫威 12%SC",b:"A2405",q:"420 箱",d:28,lv:"r"},
+      {n:"25% 吡唑醚菌酯 SC",b:"A2409",q:"1,240 箱",d:63,lv:"y"},
+      {n:"41% 草甘膦 AS",b:"B2402",q:"8,600 箱",d:96,lv:"y"},
+      {n:"72% 霜脲·锰锌 WP",b:"A2311",q:"260 箱",d:112,lv:"b"},
+      {n:"0.01% 芸苔素 AS",b:"C2406",q:"1,800 瓶",d:150,lv:"b"}
+    ];
+    var rawPrice={
+      urea:[100,98,96,95,93,94,92,90,89,88,87,86],
+      map:[100,101,100,99,98,99,100,101,102,101,100,99],
+      gly:[100,96,92,88,85,83,82,80,79,78,77,76],
+      kcl:[100,102,105,108,110,112,114,116,117,119,120,122]
+    };
+    var procurement=[
+      {n:"46% 尿素",now:2260,fc:"↓ 3.5%",adv:"延迟采购",good:true},
+      {n:"64% 磷酸一铵",now:3980,fc:"持平",adv:"按需补库",good:false},
+      {n:"60% 氯化钾",now:3120,fc:"↑ 6.1%",adv:"提前锁价",good:true},
+      {n:"41% 草甘膦",now:1980,fc:"↓ 2.8%",adv:"分批建仓",good:true}
+    ];
+    var shortage=[
+      {n:"45%S(15-15-15) 复合肥",q:"320 吨",rg:"豫东 / 皖北",eta:"11-05"},
+      {n:"30% 戊唑醇 SC",q:"180 箱",rg:"鲁南",eta:"11-02"},
+      {n:"先玉 335 玉米种",q:"1,200 袋",rg:"冀南",eta:"11-12"}
+    ];
+    var slow=[
+      {n:"40% 毒死蜱 EC",q:"2,600 箱",d:186},
+      {n:"普通地膜 90cm",q:"210 吨",d:142},
+      {n:"硫基复合肥 45%",q:"480 吨",d:118}
+    ];
+    var transfers=[
+      {f:"山东寿光",t:"河北邯郸",n:"25% 吡唑醚菌酯 SC",q:"600 箱",v:"回收现金 62 万"},
+      {f:"江苏盐城",t:"安徽亳州",n:"45%S 复合肥",q:"180 吨",v:"避免临期损失 11 万"},
+      {f:"广东湛江",t:"广西南宁",n:"甲维·茚虫威",q:"260 箱",v:"满足窗口缺口 34 万"}
+    ];
+    var aging=[
+      {n:"0-30 天",v:arTotal*0.52,c:"#3ddc97"},
+      {n:"31-60 天",v:arTotal*0.21,c:"#57a9e6"},
+      {n:"61-90 天",v:arTotal*0.13,c:"#e8b559"},
+      {n:"90 天以上",v:arTotal*0.14,c:"#f0605d"}
+    ];
+    var riskCust=[
+      {n:"丰泽农资",d:42,v:86.4,over:118,lv:"r"},
+      {n:"沃土农资",d:31,v:52.8,over:106,lv:"r"},
+      {n:"禾盛源",d:18,v:38.2,over:94,lv:"y"},
+      {n:"川农科技",d:12,v:24.6,over:88,lv:"y"},
+      {n:"闽南植保",d:6,v:19.4,over:72,lv:"b"}
+    ];
+    var compliance=[
+      {n:"农药经营许可证",w:3,d:24},{n:"危险化学品经营许可",w:1,d:58},
+      {n:"肥料登记证（续展）",w:12,d:96},{n:"种子生产经营备案",w:2,d:130}
+    ];
+
+    var big=bigNum(revSum);
+    var kpis=[
+      {l:"销售收入",v:big.v,u:big.u,d:r2(j(9.6,0.5)),dir:"up",good:true,
+       n:"完成目标 "+(revSum/tgtSum*100).toFixed(1)+"%",
+       sp:revenue.filter(function(_,i){return i<=CUR}),c:"#3ddc97"},
+      {l:"综合毛利率",v:marAvg.toFixed(1),u:"%",d:r2(j(1.4,0.6)),dir:"up",good:marAvg>=18,
+       n:"目标 19.0%",sp:margin,c:"#e8b559"},
+      {l:"回款率",v:collect.toFixed(1),u:"%",d:r2(j(-1.8,0.8)),dir:"down",good:false,
+       n:"行业均值 82.5%",sp:[88,87,86.5,86,85.8,86.1,85.4,85.9,86.2,collect],c:"#57a9e6"},
+      {l:"库存周转",v:Math.round(turnover),u:"天",d:r2(j(3.2,0.5)),dir:"up",good:false,
+       n:"目标 ≤ 60 天",sp:[74,72,71,70,69,70,69,68,68,Math.round(turnover)],c:"#a58bfa"},
+      {l:"活跃经销商",v:fmt.int(dealerCnt),u:"家",d:r2(j(4.1,0.6)),dir:"up",good:true,
+       n:"本月净增 23 家",sp:[1210,1218,1230,1238,1246,1252,1260,1268,1274,dealerCnt],c:"#54d4d0"},
+      {l:"订单履约率",v:fill.toFixed(1),u:"%",d:r2(j(0.6,0.8)),dir:"up",good:true,
+       n:"缺货订单 41 单",sp:[94.8,95.2,95.6,95.1,95.8,96.0,95.6,96.1,96.4,fill],c:"#3ddc97"}
+    ];
+
+    return {
+      region:region,period:period,
+      periodLabel:period==="月"?"2026年10月":period==="季"?"2026 Q3（8-10月）":"2026 年度累计",
+      kpis:kpis, revenue:revenue, target:target, margin:margin,
+      category:category, regions:regions, matrix:MATRIX, crops:CROPS, cats:CATS,
+      alerts:alerts, calendar:calendar, windows:windows,
+      funnel:funnel, priceComp:priceComp, customerMix:customerMix,
+      reps:reps, dealers:dealers, quad:quad, channelStock:channelStock,
+      bigCust:bigCust, inventoryMix:inventoryMix, expiring:expiring, rawPrice:rawPrice,
+      procurement:procurement, shortage:shortage, slow:slow, transfers:transfers,
+      aging:aging, arTotal:arTotal, overdueRate:overdueRate, riskCust:riskCust,
+      compliance:compliance, revSum:revSum, tgtSum:tgtSum, marAvg:marAvg
+    };
+  }
+
+  /* ============ 图表 ============ */
+  function combo(d){
+    var W=760,H=248,L=48,R=42,T=14,B=26, iw=W-L-R, ih=H-T-B;
+    var rev=d.revenue, mar=d.margin, tgt=d.target;
+    var rmax=Math.max.apply(null,rev.concat(tgt))*1.14;
+    var mmin=Math.min.apply(null,mar)-4, mmax=Math.max.apply(null,mar)+4;
+    function x(i){return L+iw*(i+0.5)/rev.length}
+    function y(v){return T+ih-(v/rmax)*ih}
+    function ym(v){return T+ih-((v-mmin)/(mmax-mmin))*ih}
+    var bw=iw/rev.length*0.44, s="";
+    for(var g=0;g<=4;g++){
+      var gy=T+ih-(ih*g/4), val=rmax*g/4;
+      s+='<line x1="'+L+'" y1="'+gy.toFixed(1)+'" x2="'+(W-R)+'" y2="'+gy.toFixed(1)+'" stroke="rgba(255,255,255,.06)"/>';
+      s+='<text x="'+(L-8)+'" y="'+(gy+3.5).toFixed(1)+'" text-anchor="end" font-size="9.5" fill="#718e80">'+
+         Math.round(val).toLocaleString('zh-CN')+'</text>';
+      s+='<text x="'+(W-R+8)+'" y="'+(gy+3.5).toFixed(1)+'" font-size="9.5" fill="#718e80">'+
+         (mmin+(mmax-mmin)*g/4).toFixed(0)+'%</text>';
+    }
+    s+='<defs><linearGradient id="bg1" x1="0" y1="0" x2="0" y2="1">'+
+       '<stop offset="0" stop-color="#3ddc97" stop-opacity=".95"/><stop offset="1" stop-color="#1f9d68" stop-opacity=".55"/></linearGradient></defs>';
+    rev.forEach(function(v,i){
+      var hgt=Math.max(1,T+ih-y(v));
+      s+='<rect x="'+(x(i)-bw/2).toFixed(1)+'" y="'+y(v).toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+hgt.toFixed(1)+
+         '" rx="2.5" fill="url(#bg1)" opacity="'+(i>CUR?.45:1)+'"><title>'+MONTHS[i]+' 营收 '+Math.round(v)+' 万</title></rect>';
+      s+='<text x="'+x(i).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle" font-size="9" fill="#718e80">'+MONTHS[i]+'</text>';
+    });
+    var tp=tgt.map(function(v,i){return (i?"L":"M")+x(i).toFixed(1)+" "+y(v).toFixed(1)}).join(" ");
+    s+='<path d="'+tp+'" fill="none" stroke="#e8b559" stroke-width="1.2" stroke-dasharray="4 4" opacity=".65"/>';
+    var mp=mar.map(function(v,i){return (i?"L":"M")+x(i).toFixed(1)+" "+ym(v).toFixed(1)}).join(" ");
+    s+='<path d="'+mp+'" fill="none" stroke="#57a9e6" stroke-width="2" stroke-linejoin="round"/>';
+    mar.forEach(function(v,i){
+      s+='<circle cx="'+x(i).toFixed(1)+'" cy="'+ym(v).toFixed(1)+'" r="2.6" fill="#0f1c16" stroke="#57a9e6" stroke-width="1.6">'+
+         '<title>'+MONTHS[i]+' 毛利率 '+v+'%</title></circle>';
+    });
+    s+='<text x="'+L+'" y="'+(T-2)+'" font-size="9.5" fill="#718e80">营收（柱 · 万元）· 毛利率（线 · %）· 目标（虚线）</text>';
+    return '<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="display:block">'+s+'</svg>';
+  }
+
+  function donut(items,center,sub){
+    var R=70,cx=110,cy=110,C=2*Math.PI*R,off=0,s="";
+    items.forEach(function(it){
+      var len=C*it.pct/100;
+      s+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="none" stroke="'+it.color+'" stroke-width="22" '+
+         'stroke-dasharray="'+(len-1.5).toFixed(2)+' '+(C-len+1.5).toFixed(2)+'" stroke-dashoffset="'+(-off).toFixed(2)+'" '+
+         'transform="rotate(-90 '+cx+' '+cy+')" opacity=".92"><title>'+it.name+' '+it.pct.toFixed(1)+'%</title></circle>';
+      off+=len;
+    });
+    s+='<text x="'+cx+'" y="'+(cy-2)+'" text-anchor="middle" font-size="22" font-weight="650" fill="#e9f2ec">'+center+'</text>';
+    s+='<text x="'+cx+'" y="'+(cy+16)+'" text-anchor="middle" font-size="10" fill="#9cb8ab">'+sub+'</text>';
+    return '<svg viewBox="0 0 220 220" width="100%" style="max-width:196px;display:block;margin:0 auto">'+s+'</svg>';
+  }
+
+  function hbars(items){
+    var mx=Math.max.apply(null,items.map(function(i){return i.v}));
+    return items.map(function(it){
+      var p=it.v/mx*100, col=it.color||(it.rate>=100?"#3ddc97":it.rate>=90?"#e8b559":"#f0605d");
+      return '<div class="hb"><span class="hb-n" title="'+it.name+'">'+it.name+'</span>'+
+        '<span class="hb-t"><i style="width:'+p.toFixed(1)+'%;background:linear-gradient(90deg,'+col+',rgba(255,255,255,.15))"></i></span>'+
+        '<span class="hb-v">'+(it.disp||fmt.wan(it.v))+'</span></div>';
+    }).join("");
+  }
+
+  function heat(){
+    var vals=[].concat.apply([],MATRIX), mn=Math.min.apply(null,vals), mx=Math.max.apply(null,vals);
+    var s='<table class="heat"><thead><tr><th></th>';
+    CATS.forEach(function(c){s+='<th>'+c.n.replace("/水溶肥","")+'</th>'});
+    s+='</tr></thead><tbody>';
+    CROPS.forEach(function(cr,i){
+      s+='<tr><th>'+cr+'</th>';
+      CATS.forEach(function(c,j){
+        var v=MATRIX[i][j], t=(v-mn)/((mx-mn)||1);
+        var r=Math.round(24+(61-24)*t), g=Math.round(42+(220-42)*t), b=Math.round(35+(151-35)*t);
+        s+='<td style="background:rgb('+r+','+g+','+b+');color:'+(t>.55?"#04241a":"#cfe4d8")+'" title="'+cr+' × '+c.n+'：毛利 '+v+'%">'+v+'</td>';
+      });
+      s+='</tr>';
+    });
+    return s+'</tbody></table>';
+  }
+
+  function scatter(items){
+    var W=740,H=360,L=46,R=14,T=14,B=34, iw=W-L-R, ih=H-T-B;
+    var xmin=-25,xmax=45,ymin=50,ymax=100;
+    function X(v){return L+(v-xmin)/(xmax-xmin)*iw}
+    function Y(v){return T+ih-(v-ymin)/(ymax-ymin)*ih}
+    var s="";
+    s+='<rect x="'+X(10)+'" y="'+T+'" width="'+(X(xmax)-X(10))+'" height="'+(Y(85)-T)+'" fill="rgba(61,220,151,.05)"/>';
+    s+='<rect x="'+L+'" y="'+Y(85)+'" width="'+(X(10)-L)+'" height="'+(T+ih-Y(85))+'" fill="rgba(87,169,230,.045)"/>';
+    s+='<rect x="'+L+'" y="'+T+'" width="'+(X(10)-L)+'" height="'+(Y(85)-T)+'" fill="rgba(240,96,93,.05)"/>';
+    s+='<line x1="'+X(10)+'" y1="'+T+'" x2="'+X(10)+'" y2="'+(T+ih)+'" stroke="rgba(255,255,255,.14)" stroke-dasharray="3 3"/>';
+    s+='<line x1="'+L+'" y1="'+Y(85)+'" x2="'+(W-R)+'" y2="'+Y(85)+'" stroke="rgba(255,255,255,.14)" stroke-dasharray="3 3"/>';
+    s+='<text x="'+(W-R-4)+'" y="'+(T+12)+'" text-anchor="end" font-size="9.5" fill="#3ddc97">明星（高增长·高回款）</text>';
+    s+='<text x="'+(L+6)+'" y="'+(T+12)+'" font-size="9.5" fill="#f0605d">危险（低增长·低回款）</text>';
+    s+='<text x="'+(L+6)+'" y="'+(Y(85)-6)+'" font-size="9.5" fill="#57a9e6">压货型</text>';
+    s+='<text x="'+(W-R-4)+'" y="'+(Y(85)-6)+'" text-anchor="end" font-size="9.5" fill="#e8b559">增长但欠款</text>';
+    s+='<text x="'+(W/2)+'" y="'+(H-4)+'" text-anchor="middle" font-size="9.5" fill="#718e80">同比增速 %</text>';
+    [-20,0,20,40].forEach(function(v){
+      s+='<text x="'+X(v).toFixed(1)+'" y="'+(T+ih+13).toFixed(1)+'" text-anchor="middle" font-size="9" fill="#718e80">'+v+'</text>';
+    });
+    [50,60,70,80,90,100].forEach(function(v){
+      s+='<line x1="'+L+'" y1="'+Y(v).toFixed(1)+'" x2="'+(W-R)+'" y2="'+Y(v).toFixed(1)+'" stroke="rgba(255,255,255,.04)"/>';
+      s+='<text x="'+(L-7)+'" y="'+(Y(v)+3).toFixed(1)+'" text-anchor="end" font-size="9" fill="#718e80">'+v+'</text>';
+    });
+    items.forEach(function(p){
+      var col = (p.x>=10&&p.y>=85)?"#3ddc97":(p.x>=10?"#e8b559":(p.y>=85?"#57a9e6":"#f0605d"));
+      s+='<circle cx="'+X(Math.max(xmin,Math.min(xmax,p.x))).toFixed(1)+'" cy="'+Y(Math.max(ymin,Math.min(ymax,p.y))).toFixed(1)+
+         '" r="'+p.s.toFixed(1)+'" fill="'+col+'" opacity=".55" stroke="'+col+'" stroke-width="1">'+
+         '<title>'+p.n+'｜同比 '+p.x+'%｜回款 '+p.y+'%｜健康分 '+p.h+'</title></circle>';
+    });
+    return '<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="display:block">'+s+'</svg>';
+  }
+
+  function gauge(pct){
+    var R=76,cx=110,cy=108, th=Math.PI*(1-Math.min(pct,100)/100);
+    var ex=cx+R*Math.cos(th), ey=cy-R*Math.sin(th);
+    var col=pct>95?"#f0605d":pct>85?"#e8b559":"#3ddc97";
+    var s='<path d="M'+(cx-R)+' '+cy+' A '+R+' '+R+' 0 0 1 '+(cx+R)+' '+cy+'" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="13" stroke-linecap="round"/>';
+    s+='<path d="M'+(cx-R)+' '+cy+' A '+R+' '+R+' 0 0 1 '+ex.toFixed(2)+' '+ey.toFixed(2)+'" fill="none" stroke="'+col+'" stroke-width="13" stroke-linecap="round"/>';
+    s+='<text x="'+cx+'" y="'+(cy-24)+'" text-anchor="middle" font-size="25" font-weight="650" fill="'+col+'">'+pct.toFixed(0)+'%</text>';
+    s+='<text x="'+cx+'" y="'+(cy-6)+'" text-anchor="middle" font-size="10" fill="#9cb8ab">信用额度使用</text>';
+    s+='<text x="'+(cx-R+4)+'" y="'+(cy+18)+'" text-anchor="middle" font-size="9" fill="#718e80">0</text>';
+    s+='<text x="'+(cx+R-4)+'" y="'+(cy+18)+'" text-anchor="middle" font-size="9" fill="#718e80">100</text>';
+    return '<svg viewBox="0 0 220 138" width="100%" style="max-width:230px;display:block;margin:0 auto">'+s+'</svg>';
+  }
+
+  function funnel(steps){
+    var mx=steps[0].v;
+    return steps.map(function(s,i){
+      var w=Math.max(12,s.v/mx*100), rate=i?(s.v/steps[i-1].v*100):null, a=(1-i*0.11).toFixed(2);
+      return '<div style="display:grid;grid-template-columns:58px 1fr 60px;gap:10px;align-items:center;margin-bottom:7px">'+
+        '<span style="font-size:11px;color:#9cb8ab">'+s.n+'</span>'+
+        '<div class="fn-b" style="width:'+w.toFixed(1)+'%;background:linear-gradient(90deg,rgba(61,220,151,'+a+'),rgba(31,157,104,'+(a*0.6).toFixed(2)+'))">'+
+        '<span>'+fmt.int(s.v)+'</span></div>'+
+        (rate!==null?'<span style="font-size:10.5px;text-align:right;color:'+(rate<50?'#f0605d':rate<70?'#e8b559':'#3ddc97')+'">'+rate.toFixed(0)+'%</span>':'<span></span>')+
+        '</div>';
+    }).join("");
+  }
+
+  function agingBar(aging,total){
+    var s='<div style="display:flex;height:26px;border-radius:6px;overflow:hidden;margin-bottom:10px">';
+    aging.forEach(function(a){ s+='<div style="width:'+(a.v/total*100).toFixed(1)+'%;background:'+a.c+';opacity:.85" title="'+a.n+' '+fmt.wan(a.v)+'"></div>' });
+    s+='</div>';
+    return s;
+  }
+
+  /* ============ 视图 ============ */
+  function viewOverview(d){
+    var maxCell=0,mc={};
+    d.matrix.forEach(function(row,i){row.forEach(function(v,j){if(v>maxCell){maxCell=v;mc={c:d.crops[i],k:d.cats[j].n}}})});
+    var big=bigNum(d.revSum);
+    return ''+
+    '<div class="card c8"><div class="card-h"><div class="card-t"><i></i>营收与毛利走势<span class="card-s">2026 年 · 12 个月</span></div>'+
+      '<span class="tag">'+d.periodLabel+'</span></div>'+combo(d)+
+      '<div class="foot"><span>春耕（3-4 月）贡献全年 <b>24%</b> 收入；秋播（9 月）同比 <b style="color:#f0605d">-4.2%</b></span>'+
+      '<span class="src"><span>ERP 销售</span><span>财务总账</span></span></div></div>'+
+
+    '<div class="card c4"><div class="card-h"><div class="card-t"><i></i>品类结构</div><span class="card-s">按销售额</span></div>'+
+      donut(d.category,"¥ "+big.v,big.u+" · 含税")+
+      '<div style="margin-top:6px">'+d.category.map(function(c){
+        var mp=Math.max.apply(null,d.category.map(function(x){return x.pct}));
+        return '<div class="hb" style="grid-template-columns:72px 1fr auto"><span class="hb-n">'+c.name+'</span>'+
+        '<span class="hb-t"><i style="width:'+(c.pct/mp*100).toFixed(1)+'%;background:'+c.color+'"></i></span>'+
+        '<span class="hb-v" style="color:'+(c.yoy>=0?"#3ddc97":"#f0605d")+'">'+(c.yoy>=0?"+":"")+c.yoy+'%</span></div>'
+      }).join("")+'</div></div>'+
+
+    '<div class="card c4"><div class="card-h"><div class="card-t"><i></i>区域作战排行</div><span class="card-s">目标完成率</span></div>'+
+      hbars(d.regions.map(function(r){return {name:r.name,v:r.rate,rate:r.rate,disp:r.rate.toFixed(0)+"%"}}))+
+      '<div style="margin-top:10px;padding-top:9px;border-top:1px dashed var(--line)">'+
+        '<div style="font-size:10.5px;color:#718e80;margin-bottom:6px">目标缺口 TOP 3</div>'+
+        d.regions.filter(function(r){return r.target>r.rev}).slice(0,3).map(function(r){
+          return '<div style="display:flex;justify-content:space-between;font-size:11px;color:#9cb8ab;margin-bottom:5px">'+
+            '<span>'+r.name+'</span><b style="color:#e8b559;font-variant-numeric:tabular-nums">'+fmt.wan(r.target-r.rev)+'</b></div>'
+        }).join("")+'</div>'+
+      '<div class="foot"><span>低于 90% 的大区需重点跟进</span></div></div>'+
+
+    '<div class="card c5"><div class="card-h"><div class="card-t"><i></i>作物 × 品类 毛利矩阵</div><span class="card-s">毛利率 %</span></div>'+
+      heat()+
+      '<div class="note">最优组合：<b>'+mc.c+' × '+mc.k+'（'+maxCell+'%）</b>，建议在该作物带优先配置特肥与植保套餐资源。</div></div>'+
+
+    '<div class="card c3"><div class="card-h"><div class="card-t"><i></i>资金与赊销</div></div>'+
+      '<div class="kv"><div><span>应收账款</span><b>'+fmt.wan(d.arTotal)+'</b></div>'+
+      '<div><span>逾期率</span><b style="color:#f0605d">'+d.overdueRate.toFixed(1)+'%</b></div>'+
+      '<div><span>逾期金额</span><b style="color:#f0605d">'+fmt.wan(d.arTotal*d.overdueRate/100)+'</b></div>'+
+      '<div><span>90 天+ 占比</span><b>14%</b></div></div>'+
+      agingBar(d.aging,d.arTotal)+
+      '<div class="lg" style="margin-bottom:6px">'+d.aging.map(function(a){return '<span><i style="background:'+a.c+'"></i>'+a.n+' '+Math.round(a.v/d.arTotal*100)+'%</span>'}).join("")+'</div>'+
+      '<div style="font-size:10.5px;color:#718e80;margin-top:6px;display:flex;justify-content:space-between">'+
+      '<span>本月回款进度</span><span style="color:#3ddc97;font-weight:600">78%</span></div>'+
+      '<div class="hb-t" style="margin-top:5px"><i style="width:78%;background:linear-gradient(90deg,#3ddc97,#1f9d68)"></i></div>'+
+      '<div class="foot" style="border:0;padding-top:8px"><span>90 天以上占比超行业警戒线（10%）</span></div></div>'+
+
+    '<div class="card c7"><div class="card-h"><div class="card-t"><i></i>今日必办 · 风险与机会</div><span class="tag">5 条待处理</span></div>'+
+      d.alerts.map(function(a){
+        var m={r:["#f0605d","rgba(240,96,93,.14)"],y:["#e8b559","rgba(232,181,89,.14)"],b:["#57a9e6","rgba(87,169,230,.14)"]}[a.lv];
+        return '<div class="li"><div class="li-i" style="color:'+m[0]+';background:'+m[1]+'">!</div>'+
+          '<div class="li-b"><div class="li-t">'+a.t+'</div><div class="li-d">'+a.d+'</div></div>'+
+          '<div style="text-align:right"><div class="li-v" style="color:'+m[0]+'">'+a.v+'</div>'+
+          '<div style="font-size:10px;color:#718e80;margin-top:3px">'+a.act+'</div></div></div>'
+      }).join("")+'</div>'+
+
+    '<div class="card c5"><div class="card-h"><div class="card-t"><i></i>农事窗口日历</div><span class="card-s">未来 45 天</span></div>'+
+      '<div class="cal">'+d.calendar.map(function(v,i){
+        var a=0.12+v*0.72, cur=i===CUR;
+        return '<i title="'+MONTHS[i]+' 农事强度" style="background:rgba(61,220,151,'+a.toFixed(2)+');'+(cur?"outline:1px solid #e8b559":"")+'"></i>'
+      }).join("")+'</div>'+
+      '<div class="cal-l">'+MONTHS.map(function(m){return '<span>'+m.replace("月","")+'</span>'}).join("")+'</div>'+
+      d.windows.map(function(w){
+        return '<div class="li"><div class="li-i" style="color:'+(w.hot?"#e8b559":"#3ddc97")+';background:'+(w.hot?"rgba(232,181,89,.13)":"rgba(61,220,151,.12)")+'">⏱</div>'+
+        '<div class="li-b"><div class="li-t">'+w.crop+' · '+w.act+'</div><div class="li-d">'+w.d+'</div></div>'+
+        (w.hot?'<span class="pill p-y">提前备货</span>':'<span class="pill p-m">关注</span>')+'</div>'
+      }).join("")+'</div>';
+  }
+
+  function viewSales(d){
+    return ''+
+    '<div class="card c5"><div class="card-h"><div class="card-t"><i></i>销售漏斗</div><span class="card-s">本季度</span></div>'+
+      '<div style="display:grid;grid-template-columns:58px 1fr 60px;gap:10px;font-size:9.5px;color:#718e80;margin-bottom:7px">'+
+      '<span>环节</span><span></span><span style="text-align:right">转化率</span></div>'+
+      funnel(d.funnel)+
+      '<div style="margin-top:14px;padding-top:10px;border-top:1px dashed var(--line)">'+
+        '<div style="font-size:10.5px;color:#718e80;margin-bottom:8px">卡点诊断</div>'+
+        [["报价 → 签约 平均 21 天","超 SLA 7 天，建议审批时限压到 48 小时"],
+         ["签约 → 发货 履约 96.2%","缺货集中在复合肥 3 个 SKU"],
+         ["线索来源：经销商转介绍 41%","质量最高，建议给转介绍返利"]]
+        .map(function(x){
+          return '<div style="margin-bottom:8px"><div style="font-size:11px;color:#cfdcd5">'+x[0]+'</div>'+
+                 '<div style="font-size:10.5px;color:#718e80;margin-top:1px">'+x[1]+'</div></div>';
+        }).join("")+'</div>'+
+      '<div class="note">线索→回款整体转化 <b>23.2%</b>，「报价→签约」流失最大（32.6%）。</div></div>'+
+
+    '<div class="card c7"><div class="card-h"><div class="card-t"><i></i>月度目标达成</div><span class="card-s">实际 vs 目标</span></div>'+
+      '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">'+
+      d.regions.slice(0,6).map(function(r){
+        var gap=r.target-r.rev;
+        return '<div style="background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:9px;padding:10px 11px">'+
+          '<div style="display:flex;justify-content:space-between;font-size:11.5px"><span style="color:#9cb8ab">'+r.name+'</span>'+
+          '<b class="num" style="color:'+(r.rate>=100?"#3ddc97":r.rate>=90?"#e8b559":"#f0605d")+'">'+r.rate.toFixed(1)+'%</b></div>'+
+          '<div class="hb-t" style="margin-top:7px"><i style="width:'+Math.min(100,r.rate)+'%;background:'+(r.rate>=100?"#3ddc97":r.rate>=90?"#e8b559":"#f0605d")+'"></i></div>'+
+          '<div style="display:flex;justify-content:space-between;font-size:10px;color:#718e80;margin-top:6px">'+
+          '<span>'+fmt.wan(r.rev)+' / '+fmt.wan(r.target)+'</span>'+
+          '<span style="color:'+(gap>0?"#e8b559":"#3ddc97")+'">'+(gap>0?"缺 "+fmt.wan(gap):"超 "+fmt.wan(-gap))+'</span></div></div>'
+      }).join("")+'</div>'+
+      '<div style="margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)">'+
+        '<div style="font-size:10.5px;color:#718e80;margin-bottom:7px">补缺口 · 本周重点签单</div>'+
+        [["周口商水合作社","返青肥框架 320 吨","96 万","李慧敏"],
+         ["盐城绿丰订单挽回","复合肥价格授权","58 万","陈晓东"],
+         ["眉山柑橘联合社","清园套餐预付","42 万","赵敏"]]
+        .map(function(x){
+          return '<div style="display:flex;justify-content:space-between;align-items:baseline;font-size:11px;color:#9cb8ab;margin-bottom:6px">'+
+            '<span>'+x[0]+' <span style="color:#718e80;font-size:10px">'+x[1]+'</span></span>'+
+            '<span style="white-space:nowrap"><b style="color:#3ddc97;font-variant-numeric:tabular-nums">'+x[2]+'</b>'+
+            '<span style="color:#718e80;font-size:10px;margin-left:6px">'+x[3]+'</span></span></div>';
+        }).join("")+'</div>'+
+      '<div class="foot"><span>全国整体完成 <b>'+((d.revSum/d.tgtSum)*100).toFixed(1)+'%</b>，距目标差 <b>'+fmt.wan(d.tgtSum-d.revSum)+'</b></span></div></div>'+
+
+    '<div class="card c4"><div class="card-h"><div class="card-t"><i></i>价格竞争力</div><span class="card-s">我司 vs 竞品</span></div>'+
+      '<table><thead><tr><th>产品</th><th class="n">我司</th><th class="n">竞品</th><th class="n">价差</th></tr></thead><tbody>'+
+      d.priceComp.map(function(p){
+        var gap=(p.mine-p.comp)/p.comp*100;
+        return '<tr><td>'+p.n+'</td><td class="n">'+p.mine+'</td><td class="n">'+p.comp+'</td>'+
+          '<td class="n" style="color:'+(gap>2?"#f0605d":gap<-2?"#3ddc97":"#9cb8ab")+'">'+(gap>0?"+":"")+gap.toFixed(1)+'%</td></tr>'
+      }).join("")+'</tbody></table>'+
+      '<div class="note">复合肥价差已到 <b>+4.7%</b>，高于农户可接受阈值（3%），盐城、周口已出现丢单。</div></div>'+
+
+    '<div class="card c4"><div class="card-h"><div class="card-t"><i></i>客户结构</div><span class="card-s">按客户类型</span></div>'+
+      donut(d.customerMix.map(function(c){return {name:c.n,pct:c.v,color:c.c}}),"62%","复购贡献")+
+      '<div class="lg" style="justify-content:center;margin-top:4px">'+d.customerMix.map(function(c){
+        return '<span><i style="background:'+c.c+'"></i>'+c.n+' '+c.v+'%</span>'}).join("")+'</div>'+
+      '<div class="foot"><span>新客首单转化率 <b>18.4%</b>，低于标杆 25%</span></div></div>'+
+
+    '<div class="card c4"><div class="card-h"><div class="card-t"><i></i>促销活动 ROI</div></div>'+
+      [["小麦返青肥 满赠",2.8],["果树清园套餐",3.6],["玉米种 预售立减",1.4],["无人机飞防 引流",2.1]]
+      .map(function(x){
+        var w=x[1]/3.6*100, col=x[1]>=2.5?"#3ddc97":x[1]>=1.6?"#e8b559":"#f0605d";
+        return '<div class="hb" style="grid-template-columns:100px 1fr 44px"><span class="hb-n">'+x[0]+'</span>'+
+        '<span class="hb-t"><i style="width:'+w.toFixed(0)+'%;background:'+col+'"></i></span>'+
+        '<span class="hb-v" style="color:'+col+'">'+x[1].toFixed(1)+'x</span></div>'
+      }).join("")+
+      '<div class="foot"><span>建议关停 <b>玉米种预售立减</b>，ROI 低于 1.6x 盈亏线</span></div></div>'+
+
+    '<div class="card c12"><div class="card-h"><div class="card-t"><i></i>业务员效能榜</div><span class="card-s">回款口径 · 含技术服务考核</span></div>'+
+      '<table><thead><tr><th>#</th><th>业务员</th><th>区域</th><th class="n">回款(万)</th><th class="n">目标完成</th><th class="n">新增客户</th><th class="n">技术服务(场)</th><th>综合评价</th></tr></thead><tbody>'+
+      d.reps.map(function(r,i){
+        var p=r.rate>=100?"p-g":r.rate>=90?"p-y":"p-r";
+        return '<tr><td style="color:#718e80">'+(i+1)+'</td><td><b>'+r.n+'</b></td><td>'+r.rg+'</td>'+
+          '<td class="n">'+fmt.int(r.v)+'</td><td class="n"><span class="pill '+p+'">'+r.rate+'%</span></td>'+
+          '<td class="n">'+r.newc+'</td><td class="n">'+r.svc+'</td>'+
+          '<td style="font-size:10.5px;color:#9cb8ab">'+(r.rate>=100&&r.svc>=40?"标杆 · 可复制":r.rate<85?"需辅导 · 回款弱":"稳定")+'</td></tr>'
+      }).join("")+'</tbody></table>'+
+      '<div class="foot"><span>技术服务场次与复购率相关系数 <b>0.61</b>：服务强的业务员回款率平均高 6.8pt</span><span class="src"><span>CRM</span><span>农技服务 APP</span></span></div></div>';
+  }
+
+  function viewChannel(d){
+    return ''+
+    '<div class="card c7"><div class="card-h"><div class="card-t"><i></i>经销商健康度四象限</div><span class="card-s">'+d.dealers.length+' 家重点经销商 · 气泡=年采购额</span></div>'+
+      scatter(d.quad)+
+      '<div class="foot"><span>明星 <b>9</b> 家 / 增长但欠款 <b>11</b> 家 / 压货型 <b>6</b> 家 / 危险 <b>4</b> 家</span>'+
+      '<span style="color:#f0605d">危险区合计应收 428 万</span></div></div>'+
+
+    '<div class="card c5"><div class="card-h"><div class="card-t"><i></i>渠道库存 vs 终端动销</div><span class="card-s">月度指数</span></div>'+
+      (function(){
+        var a=d.channelStock.ship,b=d.channelStock.sell,W=480,H=210,L=32,R=8,T=12,B=24,iw=W-L-R,ih=H-T-B;
+        var mx=Math.ceil(Math.max.apply(null,a.concat(b))/20)*20;
+        function x(i){return L+iw*(i+0.5)/12}
+        function y(v){return T+ih-(v/mx)*ih}
+        var s="";
+        for(var g=0;g<=3;g++){
+          var gy=T+ih-ih*g/3;
+          s+='<line x1="'+L+'" y1="'+gy+'" x2="'+(W-R)+'" y2="'+gy+'" stroke="rgba(255,255,255,.06)"/>';
+          s+='<text x="'+(L-5)+'" y="'+(gy+3)+'" text-anchor="end" font-size="8.5" fill="#718e80">'+Math.round(mx*g/3)+'</text>';
+        }
+        var pa=a.map(function(v,i){return (i?"L":"M")+x(i).toFixed(1)+" "+y(v).toFixed(1)}).join(" ");
+        var pb=b.map(function(v,i){return (i?"L":"M")+x(i).toFixed(1)+" "+y(v).toFixed(1)}).join(" ");
+        s+='<path d="'+pa+'" fill="none" stroke="#57a9e6" stroke-width="2"/>';
+        s+='<path d="'+pb+'" fill="none" stroke="#3ddc97" stroke-width="2"/>';
+        s+='<text x="'+L+'" y="'+(H-4)+'" font-size="8.5" fill="#718e80">1-12 月</text>';
+        return '<svg viewBox="0 0 '+W+' '+H+'" width="100%">'+s+'</svg>';
+      })()+
+      '<div class="lg" style="margin-top:4px"><span><i style="background:#57a9e6"></i>渠道进货</span><span><i style="background:#3ddc97"></i>终端动销</span></div>'+
+      '<div class="note">8-9 月进货显著高于动销，渠道库存水位升至 <b>1.9 个月</b>，Q4 需控货防窜。</div></div>'+
+
+    '<div class="card c7"><div class="card-h"><div class="card-t"><i></i>重点经销商 TOP 8</div><span class="card-s">健康度 · 库存 · 回款</span></div>'+
+      '<table><thead><tr><th>经销商</th><th>大区</th><th class="n">年采购</th><th class="n">同比</th><th class="n">回款率</th><th class="n">库存天数</th><th class="n">健康分</th><th>状态</th></tr></thead><tbody>'+
+      d.dealers.slice(0,8).map(function(x){
+        var st=x.health>=75?["p-g","健康"]:x.health>=62?["p-y","关注"]:["p-r","预警"];
+        return '<tr><td>'+x.n+'</td><td>'+x.rg+'</td><td class="n">'+fmt.wan(x.rev)+'</td>'+
+          '<td class="n" style="color:'+(x.yoy>=0?"#3ddc97":"#f0605d")+'">'+(x.yoy>=0?"+":"")+x.yoy+'%</td>'+
+          '<td class="n">'+x.coll.toFixed(1)+'%</td><td class="n">'+x.stockD+'</td>'+
+          '<td class="n"><b>'+x.health.toFixed(0)+'</b></td><td><span class="pill '+st[0]+'">'+st[1]+'</span></td></tr>'
+      }).join("")+'</tbody></table>'+
+      '<div class="foot"><span>健康分 = 回款 40% + 动销 25% + 库存 20% + 合规 15%</span></div></div>'+
+
+    '<div class="card c5"><div class="card-h"><div class="card-t"><i></i>渠道风险与窜货预警</div><span class="tag" style="color:#f0605d;border-color:rgba(240,96,93,.3)">2 起</span></div>'+
+      d.alerts.filter(function(a){return a.lv==="r"}).map(function(a){
+        return '<div class="li"><div class="li-i" style="color:#f0605d;background:rgba(240,96,93,.14)">⚑</div>'+
+        '<div class="li-b"><div class="li-t">'+a.t+'</div><div class="li-d">'+a.d+'</div></div></div>'
+      }).join("")+
+      '<div style="margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)">'+
+        '<div style="font-size:10.5px;color:#718e80;margin-bottom:8px">本月跨区扫码异常 TOP 3</div>'+
+        [["川渝-云贵边界",217],["鲁苏交界",84],["豫皖交界",61]].map(function(x){
+          return '<div class="hb" style="grid-template-columns:104px 1fr 46px"><span class="hb-n">'+x[0]+'</span>'+
+          '<span class="hb-t"><i style="width:'+(x[1]/217*100)+'%;background:#f0605d"></i></span>'+
+          '<span class="hb-v">'+x[1]+' 条</span></div>';
+        }).join("")+'</div>'+
+      '<div class="note">建议按片区重新核验经销授权，并对扫码红包做区域白名单。</div></div>'+
+
+    '<div class="card c12"><div class="card-h"><div class="card-t"><i></i>大户 / 合作社 复购预测</div><span class="card-s">AI 评分：面积 × 作物 × 用药方案 × 服务记录</span></div>'+
+      '<table><thead><tr><th>客户</th><th>作物 / 规模</th><th class="n">上季采购</th><th class="n">复购概率</th><th style="width:180px">预测依据</th><th>建议动作</th><th class="n">预计增量</th></tr></thead><tbody>'+
+      d.bigCust.map(function(c){
+        var cls=c.p>=80?"p-g":c.p>=65?"p-y":"p-r";
+        return '<tr><td><b>'+c.n+'</b></td><td style="color:#9cb8ab">'+c.c+'</td><td class="n">'+c.v+' 万</td>'+
+          '<td class="n"><span class="pill '+cls+'">'+c.p+'%</span></td>'+
+          '<td><div class="hb-t"><i style="width:'+c.p+'%;background:'+(c.p>=80?"#3ddc97":c.p>=65?"#e8b559":"#f0605d")+'"></i></div></td>'+
+          '<td>'+c.act+'</td><td class="n" style="color:#3ddc97">+'+(c.v*0.18).toFixed(0)+' 万</td></tr>'
+      }).join("")+'</tbody></table></div>';
+  }
+
+  function viewSupply(d){
+    var invTotal=d.inventoryMix.reduce(function(a,b){return a+b.v},0);
+    return ''+
+    '<div class="card c4"><div class="card-h"><div class="card-t"><i></i>库存结构</div><span class="card-s">金额占比</span></div>'+
+      donut(d.inventoryMix.map(function(i){return {name:i.n,pct:i.v/invTotal*100,color:i.c}}),fmt.wan(invTotal),"库存总额")+
+      '<div class="lg" style="justify-content:center">'+d.inventoryMix.map(function(i){
+        return '<span><i style="background:'+i.c+'"></i>'+i.n+' '+Math.round(i.v/invTotal*100)+'%</span>'}).join("")+'</div></div>'+
+
+    '<div class="card c8"><div class="card-h"><div class="card-t"><i></i>效期预警 · 临期先出</div><span class="tag">按剩余天数排序</span></div>'+
+      '<table><thead><tr><th style="width:30%">品名</th><th style="width:9%">批次</th><th class="n" style="width:11%">库存</th><th class="n" style="width:13%">剩余效期</th><th style="width:17%">效期水位</th><th>处理建议</th></tr></thead><tbody>'+
+      d.expiring.map(function(x){
+        var w=Math.min(100,100-x.d/730*100);
+        var col=x.lv==="r"?"#f0605d":x.lv==="y"?"#e8b559":"#3ddc97";
+        return '<tr><td>'+x.n+'</td><td style="color:#718e80">'+x.b+'</td><td class="n">'+x.q+'</td>'+
+          '<td class="n" style="color:'+col+'"><b>'+x.d+' 天</b></td>'+
+          '<td><div class="hb-t"><i style="width:'+w.toFixed(0)+'%;background:'+col+'"></i></div></td>'+
+          '<td style="font-size:10.5px;color:#9cb8ab">'+(x.d<45?"立即调拨/搭赠":x.d<100?"纳入促销池":"正常周转")+'</td></tr>'
+      }).join("")+'</tbody></table>'+
+      '<div class="foot"><span>临期（&lt;90 天）库存合计 <b style="color:#e8b559">386 万</b>，占农药库存 17.7%</span></div></div>'+
+
+    '<div class="card c7"><div class="card-h"><div class="card-t"><i></i>原料价格联动</div><span class="card-s">指数 · 2026 年</span></div>'+
+      (function(){
+        var W=560,H=200,L=34,R=10,T=12,B=22,iw=W-L-R,ih=H-T-B;
+        var keys=[["urea","#3ddc97","尿素"],["map","#57a9e6","磷酸一铵"],["gly","#e8b559","草甘膦"],["kcl","#f0605d","氯化钾"]];
+        var mn=70,mx=130;
+        function x(i){return L+iw*i/11}
+        function y(v){return T+ih-((v-mn)/(mx-mn))*ih}
+        var s="";
+        for(var g=0;g<=3;g++){
+          var gy=T+ih-ih*g/3;
+          s+='<line x1="'+L+'" y1="'+gy+'" x2="'+(W-R)+'" y2="'+gy+'" stroke="rgba(255,255,255,.06)"/>';
+          s+='<text x="'+(L-5)+'" y="'+(gy+3)+'" text-anchor="end" font-size="8.5" fill="#718e80">'+(mn+(mx-mn)*g/3).toFixed(0)+'</text>';
+        }
+        keys.forEach(function(k){
+          var arr=d.rawPrice[k[0]];
+          s+='<path d="'+arr.map(function(v,i){return (i?"L":"M")+x(i).toFixed(1)+" "+y(v).toFixed(1)}).join(" ")+
+             '" fill="none" stroke="'+k[1]+'" stroke-width="1.8"/>';
+        });
+        s+='<text x="'+L+'" y="'+(H-4)+'" font-size="8.5" fill="#718e80">1 月</text>';
+        s+='<text x="'+(W-R)+'" y="'+(H-4)+'" text-anchor="end" font-size="8.5" fill="#718e80">12 月</text>';
+        return '<svg viewBox="0 0 '+W+' '+H+'" width="100%">'+s+'</svg>';
+      })()+
+      '<div class="lg" style="margin-top:4px">'+
+      [["#3ddc97","尿素 -14%"],["#57a9e6","磷酸一铵 -1%"],["#e8b559","草甘膦 -24%"],["#f0605d","氯化钾 +22%"]]
+      .map(function(k){return '<span><i style="background:'+k[0]+'"></i>'+k[1]+'</span>'}).join("")+'</div></div>'+
+
+    '<div class="card c5"><div class="card-h"><div class="card-t"><i></i>采购窗口建议</div><span class="card-s">基于 30 天价格预测</span></div>'+
+      d.procurement.map(function(p){
+        return '<div class="li"><div class="li-i" style="color:'+(p.good?"#3ddc97":"#9cb8ab")+';background:'+(p.good?"rgba(61,220,151,.12)":"rgba(255,255,255,.05)")+'">¥</div>'+
+        '<div class="li-b"><div class="li-t">'+p.n+'　<span style="color:#718e80;font-weight:400">现价 '+p.now+' 元/吨</span></div>'+
+        '<div class="li-d">价格预测 '+p.fc+'　→　<b style="color:'+(p.good?"#3ddc97":"#9cb8ab")+'">'+p.adv+'</b></div></div></div>'
+      }).join("")+
+      '<div class="note">氯化钾上行通道明确，建议对 Q1 用量提前锁价 <b>40%</b>，可对冲成本约 <b>180 万</b>。</div></div>'+
+
+    '<div class="card c6"><div class="card-h"><div class="card-t"><i></i>缺货风险</div><span class="tag" style="color:#e8b559">3 项</span></div>'+
+      '<table><thead><tr><th style="width:40%">SKU</th><th class="n" style="width:18%">预计缺口</th><th style="width:26%">影响区域</th><th class="n">到货</th></tr></thead><tbody>'+
+      d.shortage.map(function(s){
+        return '<tr><td>'+s.n+'</td><td class="n" style="color:#e8b559">'+s.q+'</td><td>'+s.rg+'</td><td class="n">'+s.eta+'</td></tr>'
+      }).join("")+'</tbody></table>'+
+      '<div class="foot"><span>缺口订单已锁客 <b>62%</b>，其余存在流失风险</span></div></div>'+
+
+    '<div class="card c6"><div class="card-h"><div class="card-t"><i></i>滞销清理与调拨</div><span class="card-s">建议动作</span></div>'+
+      d.slow.map(function(s){
+        return '<div class="hb" style="grid-template-columns:130px 1fr 56px"><span class="hb-n">'+s.n+'</span>'+
+        '<span class="hb-t"><i style="width:'+Math.min(100,s.d/2)+'%;background:#f0605d"></i></span>'+
+        '<span class="hb-v" style="color:#f0605d">'+s.d+' 天</span></div>'
+      }).join("")+
+      '<div style="border-top:1px dashed var(--line);margin-top:10px;padding-top:9px">'+
+      d.transfers.map(function(t){
+        return '<div style="font-size:11px;color:#9cb8ab;margin-bottom:6px">'+t.f+' → '+t.t+'　<b style="color:#cfdcd5">'+t.n+'</b> '+t.q+'　<span style="color:#3ddc97">'+t.v+'</span></div>'
+      }).join("")+'</div></div>';
+  }
+
+  function viewRisk(d){
+    return ''+
+    '<div class="card c5"><div class="card-h"><div class="card-t"><i></i>应收账龄结构</div><span class="card-s">合计 '+fmt.wan(d.arTotal)+'</span></div>'+
+      agingBar(d.aging,d.arTotal)+
+      d.aging.map(function(a){
+        return '<div class="hb" style="grid-template-columns:80px 1fr 60px"><span class="hb-n">'+a.n+'</span>'+
+        '<span class="hb-t"><i style="width:'+(a.v/d.arTotal*100).toFixed(0)+'%;background:'+a.c+'"></i></span>'+
+        '<span class="hb-v">'+fmt.wan(a.v)+'</span></div>'
+      }).join("")+
+      '<div class="note">逾期率 <b>'+d.overdueRate.toFixed(1)+'%</b>（行业均值 8.6%）；90 天以上账龄每压降 1pt，可释放现金约 <b>'+fmt.wan(d.arTotal*0.01)+'</b>。</div></div>'+
+
+    '<div class="card c3"><div class="card-h"><div class="card-t"><i></i>授信使用</div></div>'+
+      gauge(96)+
+      '<div class="foot" style="border:0"><span>3 家经销商已超额度，需重新评级</span></div></div>'+
+
+    '<div class="card c4"><div class="card-h"><div class="card-t"><i></i>风险敞口</div><span class="card-s">Top 风险项</span></div>'+
+      [["赊销坏账",428,"#f0605d","占应收 12%"],["临期跌价",386,"#e8b559","农药为主"],["原料上行",180,"#57a9e6","钾肥敞口"],["窜货冲击",96,"#a58bfa","3 个片区"]]
+      .map(function(x){
+        return '<div class="li"><div class="li-i" style="color:'+x[2]+';background:rgba(255,255,255,.05)">⚠</div>'+
+        '<div class="li-b"><div class="li-t">'+x[0]+'<span style="font-size:10px;color:#718e80;font-weight:400">'+x[3]+'</span></div></div>'+
+        '<div class="li-v" style="color:'+x[2]+'">'+x[1]+' 万</div></div>'
+      }).join("")+'</div>'+
+
+    '<div class="card c7"><div class="card-h"><div class="card-t"><i></i>高风险客户名单</div><span class="card-s">按逾期天数</span></div>'+
+      '<table><thead><tr><th>客户</th><th class="n">逾期天数</th><th class="n">欠款</th><th class="n">额度使用</th><th>建议</th></tr></thead><tbody>'+
+      d.riskCust.map(function(c){
+        var p=c.lv==="r"?"p-r":c.lv==="y"?"p-y":"p-b";
+        return '<tr><td><b>'+c.n+'</b></td><td class="n" style="color:'+(c.d>30?"#f0605d":"#9cb8ab")+'">'+c.d+'</td>'+
+          '<td class="n">'+c.v+' 万</td><td class="n"><span class="pill '+p+'">'+c.over+'%</span></td>'+
+          '<td style="font-size:10.5px;color:#9cb8ab">'+(c.d>30?"停货 + 法务函":c.d>10?"业务员驻点催收":"短信提醒")+'</td></tr>'
+      }).join("")+'</tbody></table>'+
+      '<div class="foot"><span>建议将回款率纳入业务员提成的 <b>30%</b> 权重，与收入脱钩</span></div></div>'+
+
+    '<div class="card c5"><div class="card-h"><div class="card-t"><i></i>合规与证照</div><span class="card-s">到期提醒</span></div>'+
+      d.compliance.map(function(c){
+        var col=c.d<30?"#f0605d":c.d<60?"#e8b559":"#3ddc97";
+        return '<div class="li"><div class="li-i" style="color:'+col+';background:rgba(255,255,255,.05)">📄</div>'+
+        '<div class="li-b"><div class="li-t">'+c.n+'</div><div class="li-d">'+c.w+' 家主体待续期</div></div>'+
+        '<div class="li-v" style="color:'+col+'">'+c.d+' 天</div></div>'
+      }).join("")+
+      '<div class="foot"><span>农药经营许可为强监管项，过期即停业</span></div></div>'+
+
+    '<div class="card c12"><div class="card-h"><div class="card-t"><i></i>大区应收与逾期分布</div>'+
+      '<span class="card-s">回款作战地图 · 按风险排序</span></div>'+
+      '<table><thead><tr><th>大区</th><th class="n">销售收入</th><th class="n">应收余额</th><th class="n">逾期率</th>'+
+      '<th class="n">逾期金额</th><th class="n">90 天+</th><th style="width:170px">逾期水位</th><th>风险等级</th></tr></thead><tbody>'+
+      d.regions.map(function(r){
+        var ar=r.rev*0.41, od=6.5+((hash(r.name+"od")%1000)/1000)*8.5, amt=ar*od/100;
+        var deep=amt*(0.34+((hash(r.name+"dp")%1000)/1000)*0.2);
+        var col=od>=12?"#f0605d":od>=9?"#e8b559":"#3ddc97";
+        var lv=od>=12?["p-r","高"]:od>=9?["p-y","中"]:["p-g","低"];
+        return '<tr><td><b>'+r.name+'</b></td><td class="n">'+fmt.wan(r.rev)+'</td>'+
+          '<td class="n">'+fmt.wan(ar)+'</td><td class="n" style="color:'+col+'">'+od.toFixed(1)+'%</td>'+
+          '<td class="n">'+fmt.wan(amt)+'</td><td class="n">'+fmt.wan(deep)+'</td>'+
+          '<td><div class="hb-t"><i style="width:'+Math.min(100,od*6)+'%;background:'+col+'"></i></div></td>'+
+          '<td><span class="pill '+lv[0]+'">'+lv[1]+'</span></td></tr>';
+      }).join("")+'</tbody></table>'+
+      '<div class="foot"><span>逾期率每压降 1pt ≈ 释放现金 <b>'+fmt.wan(d.arTotal*0.01)+'</b>；建议把大区逾期率纳入一把手考核</span>'+
+      '<span class="src"><span>资金系统</span><span>客户信用档案</span></span></div></div>';
+  }
+
+  function viewInsight(d){
+    var feats=[
+      ["🗺","作物-区域-产品 三维毛利地图","把 8 作物 × 6 品类 × 7 大区拆成 336 个利润格子，一眼看到“哪里卖什么最赚钱”，替代按品类看总量的粗放决策。","最高毛利组合自动定位","替代拍脑袋铺货"],
+      ["❤","经销商健康度指数 DHI","回款率、动销率、库存天数、窜货记录四维加权打分，自动分四象限，把渠道管理从“看进货”变成“看健康”。","提前 2 个月识别衰退","减少压货式增长"],
+      ["🌾","农事日历驱动需求预测","按作物物候期（返青/抽穗/灌浆/清园）倒推用药用肥窗口，提前 30 天生成铺货与生产计划。","季节性预测误差↓30%","缺货与临期双降"],
+      ["🛡","赊销风控大脑","动态授信 + 逾期预警 + 业务员连带责任，把“赊销换销量”变成“风险定价换利润”。","坏账率压降 30%+","现金周转提速"],
+      ["📡","一物一码 窜货雷达","箱码-袋码-农户扫码三级关联，跨区扫码自动告警并定位链条，保住价格体系。","窜货发现从月级到天级","价盘稳定"],
+      ["📈","原料价格联动 · 锁价建议","尿素/磷铵/钾肥/草甘膦行情接入，联动 BOM 与库存，给出“现在买 / 再等等”的采购窗口。","采购成本降 2-4%","对冲价格波动"],
+      ["👩‍🌾","技术服务转化引擎","把农技服务场次、示范田、测土配方与复购做归因，衡量每个技术员的“带货力”。","服务 ROI 可量化","从卖产品到卖方案"],
+      ["🎯","大户/合作社 LTV 复购预测","按面积、作物、历史用药方案预测复购概率与流失风险，输出差异化动作清单。","复购率 +5-8pt","高价值客户留存"]
+    ];
+    return ''+
+    '<div class="card c12" style="padding-bottom:16px"><div class="card-h"><div class="card-t"><i></i>差异化亮点功能 · 农资行业专属</div>'+
+      '<span class="card-s">这些能力是通用 BI 做不出来的护城河</span></div>'+
+      '<div class="fgrid">'+feats.map(function(f){
+        return '<div class="fcard"><div class="ic">'+f[0]+'</div><h4>'+f[1]+'</h4><p>'+f[2]+'</p>'+
+          '<div class="ft"><span class="mini">'+f[3]+'</span><span class="mini">'+f[4]+'</span></div></div>'
+      }).join("")+'</div></div>'+
+
+    '<div class="card c7"><div class="card-h"><div class="card-t"><i></i>AI 决策建议</div><span class="card-s">按预计收益排序</span></div>'+
+      [["P0","对川渝-云贵边界 3 家经销商暂停发货并复核授权","窜货链条已影响 42 万价盘，30 天内可阻断","48 万","风险"],
+       ["P0","提前锁定 Q1 氯化钾 40% 用量","上行通道明确，锁价可对冲成本","180 万","采购"],
+       ["P1","将 25% 吡唑醚菌酯 600 箱调往河北邯郸","剩余效期 63 天，本地动销仅 0.6 个月","62 万","库存"],
+       ["P1","对周口/盐城启动阶段性价格授权（-3%）","价差 4.5% 已超阈值，丢单集中在复合肥","96 万","销售"],
+       ["P2","关停玉米种预售立减，转投果树清园套餐","ROI 1.4x vs 3.6x，预算再分配即可提升","70 万","营销"]]
+      .map(function(x){
+        var p=x[0]==="P0"?"p-r":x[0]==="P1"?"p-y":"p-b";
+        return '<div class="li"><span class="pill '+p+'">'+x[0]+'</span>'+
+          '<div class="li-b"><div class="li-t">'+x[1]+'</div><div class="li-d">'+x[2]+'</div></div>'+
+          '<div style="text-align:right"><div class="li-v" style="color:#3ddc97">+'+x[3]+'</div>'+
+          '<div style="font-size:9.5px;color:#718e80">'+x[4]+'</div></div></div>'
+      }).join("")+
+      '<div class="foot"><span>建议合计可量化收益 <b style="color:#3ddc97">456 万</b> / 年，相当于毛利提升 0.9pt</span></div></div>'+
+
+    '<div class="card c5"><div class="card-h"><div class="card-t"><i></i>落地路线</div><span class="card-s">12 周可上线一期</span></div>'+
+      [["一期 · 0-2 月","数据底座 + 经营总览","打通 ERP/财务/CRM，统一口径，6 张高管看板","#3ddc97",100],
+       ["二期 · 2-4 月","渠道 · 库存 · 风控","DHI 健康度、效期预警、赊销风控、窜货雷达","#e8b559",68],
+       ["三期 · 4-6 月","预测与智能决策","农事日历预测、锁价建议、AI 建议闭环","#57a9e6",34]]
+      .map(function(x){
+        return '<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:5px">'+
+          '<b style="color:'+x[3]+'">'+x[0]+'</b><span style="color:#718e80">'+x[1]+'</span></div>'+
+          '<div class="hb-t" style="height:5px"><i style="width:'+x[4]+'%;background:'+x[3]+'"></i></div>'+
+          '<div style="font-size:10.5px;color:#9cb8ab;margin-top:5px">'+x[2]+'</div></div>'
+      }).join("")+
+      '<div class="note">建议按「总览先行、风控立威、预测增值」的节奏推进，每一期都要能单独算清 ROI。</div></div>'+
+
+    '<div class="card c12"><div class="card-h"><div class="card-t"><i></i>指标口径字典（节选）</div>'+
+      '<span class="card-s">上线前先把这张表签掉，能省掉后面 80% 的争吵</span></div>'+
+      '<table><thead><tr><th>指标</th><th>定义</th><th>数据源</th><th class="n">更新频率</th><th>责任人</th></tr></thead><tbody>'+
+      [["销售收入","含税开票收入 − 退货 − 折让","ERP 销售出库","T+1","财务"],
+       ["毛利率","(收入 − 成本) / 收入，成本含运费与损耗","财务总账","月结","财务"],
+       ["回款率","本期回款 / 本期应收发生额","资金系统","T+1","财务 + 销售"],
+       ["库存周转天数","平均库存成本 / 日均出库成本","WMS 批次","实时","供应链"],
+       ["经销商健康分","回款 40% + 动销 25% + 库存 20% + 合规 15%","DHI 模型","周","渠道部"],
+       ["临期占比","剩余效期 &lt; 90 天库存 / 总库存","WMS 批次","实时","供应链"]]
+      .map(function(r){
+        return '<tr><td><b>'+r[0]+'</b></td><td style="color:#9cb8ab">'+r[1]+'</td>'+
+          '<td style="color:#718e80">'+r[2]+'</td><td class="n">'+r[3]+'</td><td>'+r[4]+'</td></tr>';
+      }).join("")+'</tbody></table></div>';
+  }
+
+  var VIEWS={overview:viewOverview,sales:viewSales,channel:viewChannel,supply:viewSupply,risk:viewRisk,insight:viewInsight};
+
+  /* ============ 应用 ============ */
+  var state={region:"全国",period:"年"};
+
+  function kpisHTML(d){
+    return d.kpis.map(function(k){
+      var cls=k.good?"up":"down";
+      var arrow=k.dir==="up"?"▲":k.dir==="down"?"▼":"—";
+      var accent=k.good?"#3ddc97":"#e8b559";
+      return '<div class="kpi" style="--ac:'+accent+'"><div class="kpi-h"><span class="kpi-l">'+k.l+'</span>'+
+        '<span class="chip '+cls+'">'+arrow+' '+Math.abs(k.d)+'%</span></div>'+
+        '<div class="kpi-v num">'+k.v+'<em>'+k.u+'</em></div>'+
+        spark(k.sp,k.c,140,28)+
+        '<div class="kpi-f"><span class="kpi-n">'+k.n+'</span></div></div>';
+    }).join("");
+  }
+
+  function render(){
+    var d=buildData(state.region,state.period);
+    document.getElementById("kpis").innerHTML=kpisHTML(d);
+    Object.keys(VIEWS).forEach(function(id){
+      document.getElementById("view-"+id).innerHTML=VIEWS[id](d);
+    });
+  }
+
+  function setView(id){
+    [].forEach.call(document.querySelectorAll("#tabs button"),function(x){x.classList.toggle("on",x.dataset.v===id)});
+    [].forEach.call(document.querySelectorAll(".view"),function(v){v.classList.toggle("on",v.id==="view-"+id)});
+  }
+
+  function init(){
+    var sel=document.getElementById("region");
+    sel.innerHTML=REGIONS.map(function(r){return '<option'+(r===state.region?" selected":"")+'>'+r+'</option>'}).join("");
+    sel.addEventListener("change",function(){state.region=sel.value;render()});
+
+    document.getElementById("period").addEventListener("click",function(e){
+      var b=e.target.closest("button"); if(!b)return;
+      state.period=b.dataset.p;
+      [].forEach.call(this.querySelectorAll("button"),function(x){x.classList.toggle("on",x===b)});
+      render();
+    });
+
+    document.getElementById("tabs").addEventListener("click",function(e){
+      var b=e.target.closest("button"); if(!b)return;
+      setView(b.dataset.v);
+      try{ history.replaceState(null,"","#"+b.dataset.v); }catch(err){ location.hash=b.dataset.v; }
+      window.scrollTo({top:0,behavior:"smooth"});
+    });
+
+    var h=(location.hash||"").replace("#","");
+    if(h&&document.getElementById("view-"+h)) setView(h);
+    render();
+  }
+
+  document.addEventListener("DOMContentLoaded",init);
+
+  /* 供自动化冒烟测试 */
+  window.__COCKPIT={
+    buildData:buildData,
+    views:VIEWS,
+    kpisHTML:kpisHTML,
+    selftest:function(){
+      var out=[];
+      REGIONS.forEach(function(r){
+        ["月","季","年"].forEach(function(p){
+          var d=buildData(r,p);
+          var all=[kpisHTML(d)].concat(Object.keys(VIEWS).map(function(k){return VIEWS[k](d)}));
+          all.forEach(function(html,i){
+            if(!html||html.indexOf("undefined")>-1||html.indexOf("NaN")>-1){
+              throw new Error("bad render: "+r+"/"+p+"/"+i);
+            }
+          });
+          out.push(r+"/"+p);
+        });
+      });
+      return out;
+    }
+  };
+})();
+</script>
+</body>
+</html>

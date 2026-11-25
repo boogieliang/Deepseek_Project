@@ -1,0 +1,29 @@
+{
+  "scanTime": "2026-10-24T14:56:15.002Z",
+  "pluginDir": "C:\\Users\\hp\\.dsh\\profiles\\desktop\\node_modules\\dsh-pet",
+  "version": "0.3.8",
+  "officialManifest": "assets/config.jsonc（插件随包官方清单）",
+  "counts": {
+    "required": 106,
+    "local": 106,
+    "missing": 0,
+    "remaining": 0,
+    "unused": 0,
+    "core": 11,
+    "random": 80,
+    "events": 15
+  },
+  "integrity": {
+    "sizeMismatch": [],
+    "ghSizeMismatch": [],
+    "badMagic": [],
+    "npmTarball": "dsh-pet-0.3.8.tgz",
+    "npmFiles": 106
+  },
+  "github": {
+    "source": "GitHub main",
+    "files": 106
+  },
+  "downloaded": [],
+  "note": "无缺失，0 个下载（已存在文件全部跳过）"
+}

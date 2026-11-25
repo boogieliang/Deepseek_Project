@@ -1,0 +1,41 @@
+# ---------- Python ----------
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ---------- 构建产物（由 build.ps1 生成）----------
+build/
+dist/
+*.spec
+selftest-result.json
+
+# ---------- 运行时数据：含个人资料与浏览器登录态，绝不入库 ----------
+SmartFormFiller-Data/
+**/browser-profile/
+*.log
+startup-error.log
+
+# ---------- 本地演示数据库 / 服务日志（可随时重建）----------
+agri-ceo-cockpit/system/data.db
+agri-ceo-cockpit/system/*.log
+
+# ---------- 个人文档，不属于代码库 ----------
+output/
+
+# ---------- 系统与编辑器 ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*~
+
+# ---------- 临时文件 ----------
+*.tmp
+~$*

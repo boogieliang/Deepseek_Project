@@ -1,0 +1,1236 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026 最值得装的 DeepSeek 插件 · 12 款精选</title>
+<meta name="description" content="基于 AnySearch 检索与多源核对，按通用性、不可替代性与维护活跃度排序的 DeepSeek Harness 插件选型指南。含安装命令、组合方案与安全避坑。">
+<meta name="theme-color" content="#070b1a">
+<style>
+  :root{
+    --ink:#0b1020;
+    --ink-soft:#1a2138;
+    --muted:#5d6579;
+    --muted-2:#6f7789;
+    --paper:#ffffff;
+    --bg:#f4f5fa;
+    --blue:#4d6bfe;
+    --blue-deep:#3047d6;
+    --cyan:#22d3ee;
+    --violet:#8b5cf6;
+    --line:rgba(11,16,32,.09);
+    --line-strong:rgba(11,16,32,.16);
+    --radius:22px;
+    --shadow:0 1px 2px rgba(11,16,32,.04),0 18px 48px -24px rgba(11,16,32,.22);
+    --shadow-lift:0 2px 4px rgba(11,16,32,.05),0 28px 64px -28px rgba(48,71,214,.35);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+    font-size:16px;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:rgba(77,107,254,.22)}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%}
+  code,pre,.mono{font-family:ui-monospace,SFMono-Regular,"SF Mono","Cascadia Code","Consolas","Liberation Mono",monospace}
+
+  /* ---------- progress ---------- */
+  #progress{
+    position:fixed;top:0;left:0;height:3px;width:0%;
+    background:linear-gradient(90deg,var(--blue),var(--cyan));
+    z-index:100;transition:width .1s linear;
+    box-shadow:0 0 14px rgba(77,107,254,.7);
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;overflow:hidden;color:#eef1ff;
+    background:
+      radial-gradient(1100px 620px at 78% 6%,rgba(77,107,254,.48),transparent 62%),
+      radial-gradient(820px 520px at 6% 96%,rgba(34,211,238,.16),transparent 62%),
+      radial-gradient(700px 500px at 52% 44%,rgba(139,92,246,.16),transparent 70%),
+      #070b1a;
+    padding:0 0 clamp(56px,8vw,96px);
+    isolation:isolate;
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(ellipse 80% 65% at 50% 30%,#000 20%,transparent 78%);
+    -webkit-mask-image:radial-gradient(ellipse 80% 65% at 50% 30%,#000 20%,transparent 78%);
+  }
+  .hero::after{
+    content:"";position:absolute;left:50%;bottom:-46%;width:1200px;height:600px;
+    transform:translateX(-50%);border-radius:50%;
+    background:radial-gradient(closest-side,rgba(77,107,254,.28),transparent 70%);
+    filter:blur(30px);z-index:0;pointer-events:none;
+  }
+  .nav{
+    position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;
+    gap:24px;padding:22px clamp(20px,5vw,64px);max-width:1320px;margin:0 auto;
+  }
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700;letter-spacing:.02em;font-size:14px}
+  .brand-mark{
+    width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--blue),var(--cyan));
+    color:#061024;font-weight:900;font-size:15px;
+    box-shadow:0 6px 20px -6px rgba(77,107,254,.9);
+  }
+  .brand small{display:block;font-size:10px;font-weight:500;letter-spacing:.18em;color:rgba(238,241,255,.55);text-transform:uppercase}
+  .nav-links{display:flex;align-items:center;gap:28px;font-size:13.5px;color:rgba(238,241,255,.68)}
+  .nav-links a{position:relative;padding:4px 0;transition:color .2s}
+  .nav-links a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;background:var(--cyan);transition:right .25s}
+  .nav-links a:hover{color:#fff}
+  .nav-links a:hover::after{right:0}
+  .nav-cta{
+    border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:8px 16px;
+    font-size:12.5px;color:#eef1ff;background:rgba(255,255,255,.05);
+    transition:background .2s,border-color .2s;
+  }
+  .nav-cta:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.4)}
+
+  .hero-inner{
+    position:relative;z-index:2;max-width:1320px;margin:0 auto;
+    padding:clamp(40px,7vw,84px) clamp(20px,5vw,64px) 0;
+    display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:56px;align-items:center;
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:9px;margin:0 0 24px;
+    font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:rgba(238,241,255,.62);font-weight:600;
+  }
+  .pulse{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 0 rgba(34,211,238,.6);animation:pulse 2.4s infinite}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(34,211,238,.55)}
+    70%{box-shadow:0 0 0 11px rgba(34,211,238,0)}
+    100%{box-shadow:0 0 0 0 rgba(34,211,238,0)}
+  }
+  h1{
+    margin:0;font-size:clamp(2.7rem,6.4vw,5.3rem);line-height:1.06;
+    letter-spacing:-.035em;font-weight:800;
+  }
+  h1 em{
+    font-style:normal;
+    background:linear-gradient(100deg,#7d95ff 0%,#4d6bfe 38%,#22d3ee 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  h1 .thin{font-weight:300;color:rgba(238,241,255,.86)}
+  .lede{
+    margin:28px 0 0;max-width:600px;font-size:clamp(15px,1.4vw,17.5px);
+    line-height:1.85;color:rgba(238,241,255,.7);
+  }
+  .lede strong{color:#fff;font-weight:600}
+  .scope{
+    display:inline-flex;gap:10px;align-items:flex-start;margin-top:22px;
+    padding:11px 15px;border-radius:12px;font-size:12.5px;line-height:1.65;
+    color:rgba(238,241,255,.62);background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,255,255,.1);max-width:600px;
+  }
+  .scope b{color:var(--cyan);font-weight:600;white-space:nowrap}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;border-radius:999px;
+    padding:13px 24px;font-size:14px;font-weight:600;letter-spacing:.01em;
+    transition:transform .2s,box-shadow .2s,background .2s;
+  }
+  .btn-primary{background:#fff;color:#0b1020;box-shadow:0 14px 34px -14px rgba(255,255,255,.5)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 20px 44px -16px rgba(255,255,255,.6)}
+  .btn-ghost{border:1px solid rgba(255,255,255,.24);color:#eef1ff;background:rgba(255,255,255,.04)}
+  .btn-ghost:hover{background:rgba(255,255,255,.1);transform:translateY(-2px)}
+  .btn svg{width:15px;height:15px}
+
+  .stats{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:clamp(40px,6vw,64px) 0 0;
+    border-top:1px solid rgba(255,255,255,.12);padding-top:26px;
+  }
+  .stat{padding:0 22px;border-left:1px solid rgba(255,255,255,.1)}
+  .stat:first-child{padding-left:0;border-left:0}
+  .stat b{display:block;font-size:clamp(1.5rem,2.6vw,2.15rem);font-weight:800;letter-spacing:-.03em;line-height:1.15}
+  .stat span{display:block;margin-top:6px;font-size:11.5px;letter-spacing:.08em;color:rgba(238,241,255,.5);text-transform:uppercase}
+
+  /* orbit */
+  .orbit{position:relative;width:100%;aspect-ratio:1;max-width:380px;justify-self:center}
+  .orbit .ring{
+    position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.14);
+    inset:0;
+  }
+  .orbit .r2{inset:54px;border-style:dashed;border-color:rgba(255,255,255,.12);animation:spin 60s linear infinite}
+  .orbit .r3{inset:108px;border-color:rgba(255,255,255,.09)}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .core{
+    position:absolute;inset:50% auto auto 50%;transform:translate(-50%,-50%);
+    width:118px;height:118px;border-radius:50%;display:grid;place-items:center;
+    background:radial-gradient(circle at 34% 28%,rgba(255,255,255,.28),transparent 46%),linear-gradient(145deg,#4d6bfe,#2438a8);
+    box-shadow:0 0 0 10px rgba(77,107,254,.08),0 30px 70px -18px rgba(77,107,254,.85);
+    font-weight:900;letter-spacing:-.02em;font-size:25px;color:#fff;
+  }
+  .core small{display:block;font-size:8.5px;letter-spacing:.24em;font-weight:600;color:rgba(255,255,255,.6);text-align:center;margin-top:2px}
+  .sat{
+    position:absolute;padding:7px 13px;border-radius:999px;font-size:12px;font-weight:600;
+    color:rgba(238,241,255,.9);background:rgba(15,23,48,.72);
+    border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(8px);white-space:nowrap;
+    box-shadow:0 8px 24px -10px rgba(0,0,0,.8);
+    animation:float 6s ease-in-out infinite;
+  }
+  .sat i{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:6px;background:var(--cyan);vertical-align:1px}
+  .s1{top:2%;left:50%;transform:translateX(-50%)}
+  .s2{top:31%;right:-2%;animation-delay:-1.4s}
+  .s2 i{background:#a78bfa}
+  .s3{bottom:7%;right:12%;animation-delay:-2.8s}
+  .s3 i{background:#fff}
+  .s4{bottom:14%;left:2%;animation-delay:-4.2s}
+  .s4 i{background:#60a5fa}
+  .s5{top:30%;left:-4%;animation-delay:-3.4s}
+  .s5 i{background:#f472b6}
+  @keyframes float{0%,100%{translate:0 0}50%{translate:0 -8px}}
+
+  /* ---------- layout ---------- */
+  main{position:relative;z-index:1}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,40px)}
+  section{padding:clamp(64px,8vw,104px) 0}
+  .section-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end;margin-bottom:38px}
+  .kicker{
+    display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin:0 0 14px;
+  }
+  .kicker::before{content:"";width:22px;height:2px;background:currentColor;border-radius:2px}
+  h2{margin:0;font-size:clamp(1.85rem,3.6vw,2.85rem);line-height:1.14;letter-spacing:-.03em;font-weight:800}
+  .section-head p{margin:14px 0 0;max-width:640px;color:var(--muted);font-size:15px}
+  .head-note{font-size:12px;color:var(--muted-2);text-align:right;line-height:1.6;white-space:nowrap}
+  .head-note b{display:block;color:var(--ink-soft);font-size:13px}
+
+  /* ---------- top picks ---------- */
+  .picks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+  .pick{
+    position:relative;display:flex;flex-direction:column;gap:14px;
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px 22px 22px;box-shadow:var(--shadow);overflow:hidden;
+    transition:transform .28s,box-shadow .28s,border-color .28s;
+  }
+  .pick::before{
+    content:"";position:absolute;top:0;left:22px;right:22px;height:2px;
+    background:linear-gradient(90deg,var(--blue),var(--cyan));opacity:0;transition:opacity .28s;
+  }
+  .pick:hover{transform:translateY(-5px);box-shadow:var(--shadow-lift);border-color:rgba(77,107,254,.28)}
+  .pick:hover::before{opacity:1}
+  .pick-num{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--muted-2)}
+  .pick h3{margin:0;font-size:19px;letter-spacing:-.02em;line-height:1.3}
+  .pick h3 span{font-weight:400;color:var(--muted-2);font-size:13px;letter-spacing:0}
+  .pick p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.75;flex:1}
+  .pick > span{
+    display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;
+    color:var(--blue-deep);margin-top:2px;
+  }
+  .pick svg{width:13px;height:13px;flex:0 0 13px;transition:transform .2s}
+  .pick:hover svg{transform:translateX(3px)}
+
+  /* ---------- filters ---------- */
+  .filterbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 26px}
+  .chip{
+    appearance:none;border:1px solid var(--line-strong);background:transparent;color:var(--muted);
+    padding:8px 15px;border-radius:999px;font-size:12.5px;font-weight:600;cursor:pointer;
+    font-family:inherit;transition:background .2s,color .2s,border-color .2s;
+  }
+  .chip:hover{border-color:var(--blue);color:var(--blue-deep)}
+  .chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .filter-count{margin-left:auto;font-size:12px;color:var(--muted-2);font-variant-numeric:tabular-nums}
+  .filter-count b{color:var(--ink)}
+
+  /* ---------- ranking cards ---------- */
+  .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+  .p-card{
+    display:flex;flex-direction:column;position:relative;
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+    padding:28px 26px 24px;box-shadow:var(--shadow);
+    transition:transform .28s,box-shadow .28s,border-color .28s,opacity .25s;
+  }
+  .p-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lift);border-color:rgba(77,107,254,.26)}
+  .p-card.is-hidden{display:none}
+  .p-card--lead{
+    grid-column:1 / -1;
+    background:
+      linear-gradient(180deg,rgba(77,107,254,.055),rgba(255,255,255,0) 44%),
+      var(--paper);
+    border-color:rgba(77,107,254,.24);
+    padding:34px 34px 30px;
+  }
+  .p-card--wide{grid-column:1 / -1}
+  .p-card--wide .p-desc{max-width:920px}
+  .p-card--wide .p-points{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 26px;max-width:980px}
+  .p-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:16px}
+  .p-rank{
+    font-size:13px;font-weight:900;letter-spacing:.02em;color:var(--blue);
+    width:34px;height:34px;flex:0 0 34px;display:grid;place-items:center;border-radius:10px;
+    background:rgba(77,107,254,.09);font-variant-numeric:tabular-nums;
+  }
+  .p-card--lead .p-rank{width:42px;height:42px;flex-basis:42px;font-size:15px;border-radius:12px;background:var(--blue);color:#fff}
+  .p-title{flex:1;min-width:0}
+  .p-title h3{margin:0;font-size:20px;letter-spacing:-.025em;line-height:1.25;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px}
+  .p-card--lead .p-title h3{font-size:clamp(1.35rem,2.4vw,1.7rem)}
+  .p-owner{font-size:11.5px;font-weight:500;color:var(--muted-2);letter-spacing:0}
+  .p-sub{margin:5px 0 0;font-size:12px;color:var(--muted-2);letter-spacing:.02em}
+  .p-star{
+    flex:0 0 auto;display:inline-flex;align-items:center;gap:5px;
+    font-size:12px;font-weight:700;color:#8a6a00;
+    background:linear-gradient(180deg,#fff8e1,#fff2c4);
+    border:1px solid rgba(180,140,0,.18);border-radius:999px;padding:5px 11px;
+    font-variant-numeric:tabular-nums;white-space:nowrap;
+  }
+  .p-star svg{width:11px;height:11px;fill:#eab308}
+  .p-star--na{color:var(--muted-2);background:#f4f5f9;border-color:var(--line)}
+  .p-desc{margin:0 0 16px;color:var(--ink-soft);font-size:14px;line-height:1.82}
+  .p-card--lead .p-desc{font-size:15px;max-width:860px}
+  .p-points{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:8px}
+  .p-points li{position:relative;padding-left:18px;font-size:13px;color:var(--muted);line-height:1.65}
+  .p-points li::before{
+    content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:2px;
+    background:linear-gradient(135deg,var(--blue),var(--cyan));
+  }
+  .p-tags{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 20px}
+  .p-tags span{font-size:11px;color:var(--muted);background:#f4f5f9;border:1px solid var(--line);border-radius:6px;padding:4px 8px}
+  .p-install{
+    margin-top:auto;display:flex;align-items:center;gap:10px;
+    background:#0c1226;border:1px solid rgba(255,255,255,.08);border-radius:12px;
+    padding:11px 12px 11px 14px;overflow:hidden;
+  }
+  .p-install:not(.p-install--text) code{
+    flex:1;min-width:0;color:#c8d4ff;font-size:10.5px;line-height:1.65;
+    white-space:pre-wrap;overflow-wrap:anywhere;
+  }
+  .p-install code .tok{color:#7dd3fc}
+  .copy{
+    flex:0 0 auto;appearance:none;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);
+    color:#e6ecff;font-family:inherit;font-size:10px;font-weight:600;border-radius:7px;
+    padding:5px 8px;cursor:pointer;transition:background .2s,border-color .2s;
+  }
+  .copy:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3)}
+  .copy.done{background:#16a34a;border-color:#16a34a;color:#fff}
+  .p-note{
+    margin:14px 0 0;font-size:12px;line-height:1.7;color:var(--muted-2);
+    border-left:2px solid rgba(77,107,254,.35);padding-left:10px;
+  }
+  .p-note b{color:var(--ink-soft);font-weight:700}
+  .p-install--text{
+    background:#f7f8fc;border:1px solid var(--line);color:var(--muted);
+    font-size:12px;line-height:1.6;display:block;
+  }
+  .p-install--text code{
+    font-size:10.8px;background:#e9edf8;color:var(--ink-soft);
+    padding:1px 5px;border-radius:4px;
+  }
+  .p-install--text a{color:var(--blue-deep);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+
+  /* ---------- stacks ---------- */
+  .stacks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+  .stack{
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+    padding:28px 26px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:18px;
+    position:relative;overflow:hidden;
+  }
+  .stack::after{
+    content:"";position:absolute;right:-40px;top:-40px;width:130px;height:130px;border-radius:50%;
+    background:radial-gradient(circle,rgba(77,107,254,.12),transparent 70%);
+  }
+  .stack-label{font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--blue)}
+  .stack h3{margin:0;font-size:20px;letter-spacing:-.02em}
+  .stack > p{margin:0;color:var(--muted);font-size:13px;line-height:1.7}
+  .steps{list-style:none;margin:0;padding:0;display:grid;gap:11px;counter-reset:s}
+  .steps li{position:relative;padding-left:32px;font-size:13px;line-height:1.55;counter-increment:s}
+  .steps li::before{
+    content:counter(s);position:absolute;left:0;top:0;width:21px;height:21px;border-radius:50%;
+    display:grid;place-items:center;font-size:10.5px;font-weight:800;
+    color:var(--blue-deep);background:rgba(77,107,254,.1);
+  }
+  .steps b{display:block;font-size:13.5px;letter-spacing:-.01em}
+  .steps span{color:var(--muted-2);font-size:12px}
+  .stack-foot{margin-top:auto;padding-top:8px;border-top:1px dashed var(--line-strong);font-size:11.5px;color:var(--muted-2)}
+  .stack-foot b{color:var(--ink-soft)}
+
+  /* ---------- install ---------- */
+  .install-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:24px;align-items:start}
+  .install-grid > *{min-width:0}
+  .code-panel{
+    background:#0a0f20;border-radius:var(--radius);padding:0;overflow:hidden;min-width:0;
+    box-shadow:0 30px 70px -30px rgba(11,16,32,.55);border:1px solid rgba(255,255,255,.06);
+  }
+  .code-bar{display:flex;align-items:center;gap:7px;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.02)}
+  .dot{width:10px;height:10px;border-radius:50%;background:#ff5f57}
+  .dot:nth-child(2){background:#febc2e}
+  .dot:nth-child(3){background:#28c840}
+  .code-bar span{margin-left:8px;font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.08em}
+  .code-body{padding:20px 18px 22px;overflow-x:auto}
+  .code-body pre{margin:0;font-size:12.3px;line-height:1.9;color:#c9d3f0}
+  .code-body .c{color:#5d6b8f}
+  .code-body .k{color:#7dd3fc}
+  .code-body .s{color:#a5f3c4}
+  .code-body .p{color:#c4b5fd}
+  .install-notes{display:grid;gap:14px}
+  .note{
+    display:flex;gap:14px;background:var(--paper);border:1px solid var(--line);
+    border-radius:14px;padding:16px 18px;box-shadow:0 1px 2px rgba(11,16,32,.03);
+  }
+  .note-num{
+    flex:0 0 26px;height:26px;border-radius:8px;background:#eef1ff;color:var(--blue-deep);
+    display:grid;place-items:center;font-size:11px;font-weight:800;
+  }
+  .note b{display:block;font-size:13.5px;margin-bottom:2px;letter-spacing:-.01em}
+  .note p{margin:0;font-size:12.5px;line-height:1.65;color:var(--muted)}
+  .note code{font-size:11.5px;background:#f1f3f9;border-radius:4px;padding:1px 5px;color:var(--ink-soft)}
+
+  .table-wrap{margin-top:26px;background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:14px 18px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2);background:#fafbfe;font-weight:700}
+  tr:last-child td{border-bottom:0}
+  td:first-child{font-weight:600;white-space:nowrap}
+  td:nth-child(2){color:var(--muted)}
+
+  /* ---------- safety ---------- */
+  .safety{
+    border-radius:28px;color:#e9edff;overflow:hidden;position:relative;
+    background:
+      radial-gradient(700px 380px at 86% 0%,rgba(77,107,254,.34),transparent 62%),
+      radial-gradient(500px 300px at 4% 100%,rgba(239,68,68,.16),transparent 66%),
+      #0a1020;
+    padding:clamp(32px,5vw,56px);border:1px solid rgba(255,255,255,.08);
+  }
+  .safety h2{color:#fff}
+  .safety .kicker{color:#8fa3ff}
+  .safety .lead{margin:12px 0 0;max-width:700px;color:rgba(233,237,255,.66);font-size:14.5px;line-height:1.8}
+  .rules{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:30px 0 0}
+  .rule{padding:20px;border-radius:14px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1)}
+  .rule b{display:block;font-size:13px;letter-spacing:.02em;margin-bottom:6px;color:#fff}
+  .rule p{margin:0;font-size:12.2px;line-height:1.7;color:rgba(233,237,255,.6)}
+  .rule b i{font-style:normal;color:var(--cyan);margin-right:7px;font-family:ui-monospace,monospace;font-size:11px}
+  .alert{
+    display:flex;gap:16px;margin:20px 0 0;padding:18px 20px;border-radius:14px;
+    background:rgba(239,68,68,.1);border:1px solid rgba(248,113,113,.3);
+  }
+  .alert svg{flex:0 0 20px;width:20px;height:20px;color:#fca5a5;margin-top:2px}
+  .alert b{display:block;color:#fecaca;font-size:13px;margin-bottom:3px}
+  .alert p{margin:0;font-size:12.5px;line-height:1.75;color:rgba(254,226,226,.78)}
+  .safety-foot{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;font-size:11.5px;color:rgba(233,237,255,.45)}
+  .safety-foot span{border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:5px 11px}
+
+  /* ---------- method / sources ---------- */
+  .method-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:44px;align-items:start}
+  .method p{color:var(--muted);font-size:14px;line-height:1.85;margin:0 0 14px}
+  .method ul{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:11px}
+  .method li{position:relative;padding-left:22px;font-size:13px;line-height:1.7;color:var(--muted)}
+  .method li::before{content:"";position:absolute;left:0;top:.65em;width:7px;height:7px;border:1.5px solid var(--blue);border-radius:50%}
+  .method li b{color:var(--ink-soft)}
+  .sources{list-style:none;margin:0;padding:0;display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .sources li{background:var(--paper);padding:13px 16px;display:flex;gap:12px;align-items:flex-start;font-size:12.5px;line-height:1.6}
+  .sources .n{flex:0 0 20px;font-size:10.5px;font-weight:800;color:var(--muted-2);padding-top:2px}
+  .sources a{font-weight:600;color:var(--ink-soft);transition:color .2s}
+  .sources a:hover{color:var(--blue-deep)}
+  .sources small{display:block;color:var(--muted-2);font-size:10.5px;margin-top:1px}
+
+  footer{padding:36px 0 44px;border-top:1px solid var(--line);margin-top:20px}
+  .foot{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:center;color:var(--muted-2);font-size:11.5px}
+  .foot b{color:var(--ink-soft)}
+
+  #toTop{
+    position:fixed;right:24px;bottom:24px;width:44px;height:44px;border-radius:12px;
+    border:1px solid rgba(255,255,255,.14);background:#111a33;color:#fff;cursor:pointer;
+    display:grid;place-items:center;opacity:0;pointer-events:none;transform:translateY(8px);
+    transition:opacity .25s,transform .25s,background .2s;z-index:60;
+    box-shadow:0 12px 30px -10px rgba(11,16,32,.5);
+  }
+  #toTop.vis{opacity:1;pointer-events:auto;transform:none}
+  #toTop:hover{background:#1c2a52}
+  #toTop svg{width:18px;height:18px}
+
+  .js .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1)}
+  .js .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:1080px){
+    .hero-inner{grid-template-columns:1fr;gap:44px}
+    .orbit{display:none}
+    .picks{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .stacks{grid-template-columns:1fr}
+    .install-grid{grid-template-columns:1fr}
+    .method-grid{grid-template-columns:1fr;gap:32px}
+  }
+  @media (max-width:820px){
+    .nav-links{display:none}
+    .stats{grid-template-columns:repeat(2,1fr);row-gap:22px}
+    .stat:nth-child(3){padding-left:0;border-left:0}
+    .cards{grid-template-columns:1fr}
+    .p-card--lead{padding:28px 24px}
+    .p-card--wide .p-points{grid-template-columns:1fr;gap:8px}
+    .rules{grid-template-columns:1fr}
+    .section-head{grid-template-columns:1fr}
+    .head-note{text-align:left;white-space:normal}
+    .p-install:not(.p-install--text) code{font-size:10.2px}
+    table{font-size:12px}
+    th,td{padding:12px 14px}
+    .table-wrap{overflow-x:auto}
+    table{min-width:720px}
+  }
+  @media (max-width:560px){
+    .picks{grid-template-columns:1fr}
+    .p-head{flex-wrap:wrap;gap:10px}
+    .p-star{margin-left:50px}
+    .p-card--lead .p-star{margin-left:58px}
+    .filter-count{width:100%;margin:4px 0 0}
+    .hero-actions .btn{width:100%;justify-content:center}
+    .scope{font-size:12px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+    .js .reveal{opacity:1;transform:none}
+  }
+  @media print{
+    .nav,.filterbar,#toTop,#progress,.hero-actions,.copy{display:none!important}
+    body{background:#fff}
+    .hero{color:#000;background:#fff;padding-bottom:24px}
+    .hero::before,.hero::after,.orbit{display:none}
+    .hero-inner{display:block!important}
+    h1 em{color:#3047d6;-webkit-text-fill-color:#3047d6}
+    .lede,.scope,.stat span,.nav-links{color:#333}
+    .stat b{color:#000}
+    .thin{color:#333}
+    .js .reveal{opacity:1!important;transform:none!important}
+    .p-card,.pick,.stack,.table-wrap,.sources{box-shadow:none;break-inside:avoid}
+    section{padding:28px 0}
+  }
+</style>
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+
+<header class="hero" id="top">
+  <nav class="nav" aria-label="主导航">
+    <a class="brand" href="#top">
+      <span class="brand-mark">D</span>
+      <span>Plugin Guide <small>DeepSeek Harness</small></span>
+    </a>
+    <div class="nav-links">
+      <a href="#picks">先装这 4 个</a>
+      <a href="#ranking">完整榜单</a>
+      <a href="#stacks">组合方案</a>
+      <a href="#install">安装排错</a>
+      <a href="#safety">安全边界</a>
+    </div>
+    <a class="nav-cta" href="#ranking">直达榜单 →</a>
+  </nav>
+
+  <div class="hero-inner">
+    <div>
+      <p class="eyebrow"><span class="pulse"></span> 2026 年 10 月 · 插件生态观察</p>
+      <h1>最值得装的<br><em>DeepSeek 插件</em><br><span class="thin">只有 12 个。</span></h1>
+      <p class="lede">
+        DeepSeek Harness 把「一切皆插件」变成了现实：两个多月 <strong>26 万星</strong>，上千个社区项目。
+        但插件越多，越难判断该装什么。这份榜单只回答一个问题——
+        <strong>装完之后，哪些真的能让你少干活。</strong>
+      </p>
+      <div class="scope">
+        <b>范围</b>
+        <span>本文的「DeepSeek 插件」指 DeepSeek Harness（DSH）生态里的组合包、客户端与集成层。VSCode 套壳、浏览器侧边栏扩展、纯 API 客户端不在此列。</span>
+      </div>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#picks">
+          从 3 分钟能装完的开始
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#install">先看安装命令</a>
+      </div>
+    </div>
+
+    <div class="orbit" aria-hidden="true">
+      <div class="ring r1"></div>
+      <div class="ring r2"></div>
+      <div class="ring r3"></div>
+      <div class="core">DSH<small>EVERYTHING<br>IS A PLUGIN</small></div>
+      <span class="sat s1"><i></i>市场</span>
+      <span class="sat s2"><i></i>视觉</span>
+      <span class="sat s3"><i></i>上下文</span>
+      <span class="sat s4"><i></i>终端</span>
+      <span class="sat s5"><i></i>记忆</span>
+    </div>
+  </div>
+
+  <div class="hero-inner" style="display:block;padding-top:0">
+    <div class="stats">
+      <div class="stat"><b>261.3k</b><span>DSH 仓库星标</span></div>
+      <div class="stat"><b>1,700+</b><span>社区插件</span></div>
+      <div class="stat"><b>12</b><span>入选插件</span></div>
+      <div class="stat"><b>10.25</b><span>数据截面</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= PICKS ================= -->
+  <section id="picks">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <p class="kicker">Start here</p>
+          <h2>先装这 4 个，摩擦少一半</h2>
+          <p>不用一次装齐。这四件套分别解决「去哪找」「少切窗口」「看不懂图」「上下文花在哪」，覆盖日常 80% 的卡点。其余按工作流加装。</p>
+        </div>
+        <div class="head-note"><b>≈ 15 分钟</b>装完并重启一次</div>
+      </div>
+
+      <div class="picks">
+        <a class="pick reveal" href="#p-market">
+          <span class="pick-num">01 / 发现</span>
+          <h3>dsh-market <span>8.9k</span></h3>
+          <p>插件生态的入口。在 DSH 里浏览、搜索、一键安装和更新，不用再对着 GitHub 复制仓库地址。</p>
+          <span>先解决「去哪找」<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="pick reveal" href="#p-sidebar">
+          <span class="pick-num">02 / 界面</span>
+          <h3>Better Sidebar <span>4.5k</span></h3>
+          <p>文件树、编辑器、终端、Git diff 全塞进右侧边栏。改完代码不用切窗口，还能盯着 Agent 的改动。</p>
+          <span>再解决「少切窗口」<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="pick reveal" href="#p-modlens">
+          <span class="pick-num">03 / 视觉</span>
+          <h3>modlens <span>4.5k</span></h3>
+          <p>截图直接粘进对话，输出 OCR、版面顺序与实体关系的结构化 JSON。纯文本模型的「外挂眼睛」。</p>
+          <span>然后解决「看不懂图」<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="pick reveal" href="#p-context">
+          <span class="pick-num">04 / 上下文</span>
+          <h3>dsh-context <span>3.6k</span></h3>
+          <p>把 token 花在哪摊开给你看：系统提示、工具结果、压缩事件、子 Agent 各占多少。长任务跑偏时先看它。</p>
+          <span>最后解决「花在哪」<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RANKING ================= -->
+  <section id="ranking" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <p class="kicker">The list</p>
+          <h2>12 款插件，按「值得装」排序</h2>
+          <p>排序不按星标，而按通用性 × 不可替代性 × 维护活跃度。星标只作热度参考，取 2026-10-25 的目录快照，四舍五入到 0.1k。</p>
+        </div>
+        <div class="head-note"><b>先读再装</b>每张卡片底部都有<br>适用范围与已知的坑</div>
+      </div>
+
+      <div class="filterbar reveal" role="group" aria-label="按类别筛选插件">
+        <button class="chip" data-filter="all" aria-pressed="true">全部</button>
+        <button class="chip" data-filter="ui" aria-pressed="false">界面与终端</button>
+        <button class="chip" data-filter="vision" aria-pressed="false">视觉</button>
+        <button class="chip" data-filter="context" aria-pressed="false">上下文与记忆</button>
+        <button class="chip" data-filter="automation" aria-pressed="false">自动化</button>
+        <button class="chip" data-filter="integration" aria-pressed="false">外部集成</button>
+        <span class="filter-count">显示 <b id="visibleCount">12</b> / 12</span>
+      </div>
+
+      <div class="cards" id="cardGrid">
+
+        <!-- 1 -->
+        <article class="p-card p-card--lead reveal" id="p-market" data-cat="ui">
+          <div class="p-head">
+            <span class="p-rank">01</span>
+            <div class="p-title">
+              <h3>dsh-market <span class="p-owner">/ dsh-market</span></h3>
+              <p class="p-sub">插件市场 · 生态入口</p>
+            </div>
+            <span class="p-star"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>8.9k</span>
+          </div>
+          <p class="p-desc">装插件的第一站。它把浏览、搜索、一键安装、更新与卸载搬进 DSH，还提供一个可以接进官方「发现」页的社区索引——新版 DSH 的 Discover 默认是空索引，正好由它补上。先装它，后面所有插件都能在界面里找到，不必再靠收藏夹里的 GitHub 链接。</p>
+          <ul class="p-points">
+            <li>按名称、功能、分类搜索，卡片直接显示兼容版本</li>
+            <li>兼容 DSH 实验性的自定义插件市场，可添加社区索引源</li>
+            <li>顺带管理主题与收藏，减少在浏览器和终端之间来回切</li>
+          </ul>
+          <div class="p-tags"><span>可视化市场</span><span>一键安装</span><span>兼容 Discover</span></div>
+          <div class="p-install">
+            <code>dsh plugin --profile web add github:dsh-market/dsh-market</code>
+            <button class="copy" data-copy="dsh plugin --profile web add github:dsh-market/dsh-market">复制</button>
+          </div>
+          <p class="p-note"><b>注意</b>社区市场不等于官方认证。DSH 只校验索引格式，不验证标题、来源与安全性；安装前仍要看确认框里的仓库地址。</p>
+        </article>
+
+        <!-- 2 -->
+        <article class="p-card reveal" id="p-sidebar" data-cat="ui">
+          <div class="p-head">
+            <span class="p-rank">02</span>
+            <div class="p-title">
+              <h3>DSH-better-sidebar <span class="p-owner">/ omdsh-dev</span></h3>
+              <p class="p-sub">侧边栏工作台</p>
+            </div>
+            <span class="p-star"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>4.5k</span>
+          </div>
+          <p class="p-desc">把文件树、CodeMirror 编辑、真实终端、Git diff、子 Agent 状态一起放进右侧边栏。Agent 改完代码，你可以在同一屏里看文件、跑测试、审 diff，不用在编辑器、终端和聊天窗口之间反复横跳。崔添翼曾在 X 上专门推荐过它。</p>
+          <ul class="p-points">
+            <li>内置文件预览/编辑、终端、Git 面板与子 Agent 页面</li>
+            <li>开放 <code>ctx.betterSidebar</code>，第三方插件可注册新 Tab</li>
+            <li>与 dsh-web 可叠加，但功能有重叠，二选一更清爽</li>
+          </ul>
+          <div class="p-tags"><span>文件树</span><span>内嵌终端</span><span>Git diff</span></div>
+          <div class="p-install">
+            <code>dsh plugin --profile web add github:omdsh-dev/DSH-better-sidebar</code>
+            <button class="copy" data-copy="dsh plugin --profile web add github:omdsh-dev/DSH-better-sidebar">复制</button>
+          </div>
+          <p class="p-note"><b>注意</b>插件与宿主版本有对应关系，升级 DSH 后若侧栏白屏，先回滚到匹配版本，而不是反复重装。</p>
+        </article>
+
+        <!-- 3 -->
+        <article class="p-card reveal" id="p-modlens" data-cat="vision">
+          <div class="p-head">
+            <span class="p-rank">03</span>
+            <div class="p-title">
+              <h3>modlens <span class="p-owner">/ liustack</span></h3>
+              <p class="p-sub">视觉桥 · 外挂眼睛</p>
+            </div>
+            <span class="p-star"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>4.5k</span>
+          </div>
+          <p class="p-desc">DSH 的第一个视觉插件。DeepSeek 文本模型本身不能看图，modlens 用外部视觉引擎把截图转成可引用的结构化证据：OCR 文本、阅读顺序、版面块、实体与关系。报错截图、UI 设计稿、表格照片，粘进对话就能问。</p>
+          <ul class="p-points">
+            <li>粘贴即读，输出 JSON 证据而不是一段模糊描述</li>
+            <li>可复用本机已有的 Claude Code / Codex / OpenCode 视觉通道</li>
+            <li>同作者的 modsearch 可一起装，补联网搜索</li>
+          </ul>
+          <div class="p-tags"><span>OCR</span><span>版面分析</span><span>结构化证据</span></div>
+          <div class="p-install">
+            <code>dsh plugin --profile web add github:liustack/modlens</code>
+            <button class="copy" data-copy="dsh plugin --profile web add github:liustack/modlens">复制</button>
+          </div>
+          <p class="p-note"><b>注意</b>需要自备视觉 API 或本机视觉 CLI，成本取决于提供方；敏感截图会离开本机，机密项目先确认数据流向。</p>
+        </article>
+
+        <!-- 4 -->
+        <article class="p-card reveal" id="p-context" data-cat="context">
+          <div class="p-head">
+            <span class="p-rank">04</span>
+            <div class="p-title">
+              <h3>dsh-context <span class="p-owner">/ bowenliang123</span></h3>
+              <p class="p-sub">上下文透视与治理</p>
+            </div>
+            <span class="p-star"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>3.6k</span>
+          </div>
+          <p class="p-desc">长任务跑到一半开始答非所问，通常不是模型变笨，而是上下文被压缩、工具结果挤占了预算。dsh-context 提供面板、浏览器、侧栏和命令，把当前会话的 token 组成、增长曲线、压缩事件、多 Agent 消耗全部摊开。</p>
+          <ul class="p-points">
+            <li>系统提示、工具结果、历史消息各占多少，一眼看清</li>
+            <li>跨会话统计与费用估算，知道钱花在哪个环节</li>
+            <li>支持查看压缩前后发生了什么，便于调整工作流</li>
+          </ul>
+          <div class="p-tags"><span>Token 面板</span><span>压缩事件</span><span>成本估算</span></div>
+          <div class="p-install">
+            <code>dsh plugin --profile web add github:bowenliang123/dsh-context</code>
+            <button class="copy" data-copy="dsh plugin --profile web add github:bowenliang123/dsh-context">复制</button>
+          </div>
+          <p class="p-note"><b>注意</b>它让上下文「可见」，不负责「变少」。真正的瘦身仍要靠拆任务、清工具输出和合理的记忆策略。</p>
+        </article>
+
+        <!-- 5 -->
+        <article class="p-card reveal" id="p-web" data-cat="ui">
+          <div class="p-head">
+            <span class="p-rank">05</span>
+            <div class="p-title">
+              <h3>dsh-web <span class="p-owner">/ zhu1090093659</span></h3>
+              <p class="p-sub">Web UI 全家桶（原 dsh-web-ui）</p>
+            </div>
+            <span class="p-star"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>9.5k</span>
+          </div>
+          <p class="p-desc">如果只装一个界面插件，就装它。任务看板（含 cron）、Git 图谱、右侧文件/预览/SCM、手机扫码遥控、SSH 远程运维、实时 TPS 与 token 统计、皮肤与桌宠，一次装齐。适合不想逐个挑组件、只想把默认聊天框升级成工作台的人。</p>
+          <ul class="p-points">
+            <li>看板 + Git 图谱 + 右侧工作区，项目状态不离开页面</li>
+            <li>手机扫码接管，出门时也能看任务进度</li>
+            <li>SSH 面板适合把 DSH 跑在远程开发机上</li>
+          </ul>
+          <div class="p-tags"><span>任务看板</span><span>Git 图谱</span><span>移动端遥控</span></div>
+          <div class="p-install">
+            <code>dsh plugin --profile web add github:zhu1090093659/dsh-web</code>
+            <button class="copy" data-copy="dsh plugin --profile web add github:zhu1090093659/dsh-web">复制</button>
+          </div>
+          <p class="p-note"><b>注意</b>全家桶已整合 better-sidebar。装它之后不必再单独装侧边栏，否则可能出现重复 Tab 或样式冲突。</p>
+        </article>
+
+        <!-- 6 -->
+        <article class="p-card reveal" id="p-tui" data-cat="ui">
+          <div class="p-head">
+            <span class="p-rank">06</span>
+            <div class="p-title">
+              <h3>dsh-TUI <span class="p-owner">/ ccch1mneyyy</span></h3>
+              <p class="p-sub">终端界面 · 键盘流</p>
+            </div>
+            <span class="p-star"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>5.8k</span>
+          </div>
+          <p class="p-desc">Claude Code 风格的全屏终端：像素鲸鱼顶栏、流式展开的思考、双击 Esc 回滚、上下文进度条、TPS 仪表。SSH 到没有图形界面的服务器时，它比开端口转发再开浏览器靠谱得多。官方公众号曾把它作为内测精选插件介绍。</p>
+          <ul class="p-points">
+            <li>纯键盘操作，切会话、换模型、回滚都不用鼠标</li>
+            <li>低占用，适合长期挂在 tmux / SSH 会话里</li>
+            <li>与 Web UI 并存，不要求你放弃图形界面</li>
+          </ul>
+          <div class="p-tags"><span>全屏 TUI</span><span>SSH 友好</span><span>回滚 / 分支</span></div>
+          <div class="p-install">
+            <code>dsh plugin add github:ccch1mneyyy/dsh-TUI</code>
+            <button class="copy" data-copy="dsh plugin add github:ccch1mneyyy/dsh-TUI">复制</button>
+          </div>
+          <p class="p-note"><b>注意</b>它使用自己的 profile，不要装进 <code>web</code>。安装前先确认仓库写明的宿主版本，TUI 对版本变化比 UI 插件更敏感。</p>
+        </article>
+
+        <!-- 7 -->
+        <article class="p-card reveal" id="p-desktop" data-cat="ui">
+          <div class="p-head">
+            <span class="p-rank">07</span>
+            <div class="p-title">
+              <h3>dsh-desktop <span class="p-owner">/ anywhere-labs</span></h3>
+              <p class="p-sub">社区桌面客户端</p>
+            </div>
+            <span class="p-star"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>33.1k</span>
+          </div>
+          <p class="p-desc">桌面客户端里星标最高的项目。把 DSH 包成原生桌面应用：独立窗口、系统托盘常驻、终端集成、插件管理，告别「浏览器标签页被误关，任务全断」。它自己也按插件架构组织，桌面壳只是最外层。</p>
+          <ul class="p-points">
+            <li>独立窗口 + 托盘，长任务在后台跑更安心</li>
+            <li>内置插件管理，适合完全不想碰命令行的用户</li>
+            <li>可组合的桌面壳，后续能替换界面层</li>
+          </ul>
+          <div class="p-tags"><span>桌面客户端</span><span>托盘常驻</span><span>独立发行版</span></div>
+          <div class="p-install p-install--text">这是独立客户端，不是 web profile 插件。按仓库 README 下载安装包；官方目前也提供桌面版，二选一即可。 <a href="https://github.com/anywhere-labs/dsh-desktop" target="_blank" rel="noopener">打开仓库 →</a></div>
+          <p class="p-note"><b>注意</b>兼容性取决于客户端内置的 DSH runtime 版本。宿主升级后，插件可能要先等客户端跟进。</p>
+        </article>
+
+        <!-- 8 -->
+        <article class="p-card reveal" id="p-mnemon" data-cat="context">
+          <div class="p-head">
+            <span class="p-rank">08</span>
+            <div class="p-title">
+              <h3>dsh-mnemon <span class="p-owner">/ omdsh-dev</span></h3>
+              <p class="p-sub">分层记忆 · 跨会话</p>
+            </div>
+            <span class="p-star p-star--na">— 未统计</span>
+          </div>
+          <p class="p-desc">给 DSH 一套「分层、可见、可组合」的记忆：偏好与工作事实常驻上下文，项目文档按需检索，长期记忆放进可切换的 Memory Space。每条回复下方会列出本轮读了什么、写了什么，点一下就能打开原文，不用猜 Agent 记住了什么。</p>
+          <ul class="p-points">
+            <li>运行时记忆 / 项目文档 / 记忆空间三层，按需加载</li>
+            <li>后端可换：本地 Mnemon Native、OpenViking、Mem0、Supermemory 等</li>
+            <li>附带 Skills 管理：版本、回测、按真实对话进化（默认关闭）</li>
+          </ul>
+          <div class="p-tags"><span>分层记忆</span><span>可追溯</span><span>多后端</span></div>
+          <div class="p-install">
+            <code>dsh plugin --profile web add dsh-mnemon</code>
+            <button class="copy" data-copy="dsh plugin --profile web add dsh-mnemon">复制</button>
+          </div>
+          <p class="p-note"><b>注意</b>插件是进程内 JavaScript，不是沙箱。记忆文件与备份可能含密钥、客户信息，务必控制目录权限并加密备份。</p>
+        </article>
+
+        <!-- 9 -->
+        <article class="p-card reveal" id="p-browser" data-cat="automation">
+          <div class="p-head">
+            <span class="p-rank">09</span>
+            <div class="p-title">
+              <h3>dsh-browser <span class="p-owner">/ Lum1104</span></h3>
+              <p class="p-sub">真实浏览器控制</p>
+            </div>
+            <span class="p-star p-star--na">— 未统计</span>
+          </div>
+          <p class="p-desc">接你正在用的 Chrome / Firefox，保留登录态、Cookie 和会话。页面被转成带编号的文本控件清单，模型按编号点击、输入、导航，而不是靠截图猜坐标。密码与卡号永远渲染成 ••••，点击与输入默认逐次审批。</p>
+          <ul class="p-points">
+            <li>用真实浏览器，不另开无头副本，登录态不丢</li>
+            <li>文本优先的页面接口，比截图方案少一轮视觉推理</li>
+            <li>受保护页面（扩展商店、部分支付页）只读元数据，不碰 DOM</li>
+          </ul>
+          <div class="p-tags"><span>Chrome / Firefox</span><span>登录态保留</span><span>逐次审批</span></div>
+          <div class="p-install p-install--text">不能用 <code>dsh plugin</code> 直接装：需要跑仓库的安装脚本，再在浏览器里加载扩展并重启 DSH。 <a href="https://github.com/Lum1104/dsh-browser" target="_blank" rel="noopener">看安装说明 →</a></div>
+          <p class="p-note"><b>注意</b>npm 上同名的 <code>dsh-browser</code> 属于另一个项目，与它无关。认 owner，不认名字。</p>
+        </article>
+
+        <!-- 10 -->
+        <article class="p-card reveal" id="p-vision-toolkit" data-cat="vision">
+          <div class="p-head">
+            <span class="p-rank">10</span>
+            <div class="p-title">
+              <h3>dsh-vision-toolkit <span class="p-owner">/ Anionex</span></h3>
+              <p class="p-sub">进阶视觉工具箱</p>
+            </div>
+            <span class="p-star"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>0.9k</span>
+          </div>
+          <p class="p-desc">比 modlens 更重的前端/设计向视觉工具：长截图 OCR、UI 还原、像素级定位与对比、可预览的 Artifacts。十个工具按需暴露，避免一次把整套视觉 schema 塞进上下文。适合拿设计稿还原页面、做视觉回归的人。</p>
+          <ul class="p-points">
+            <li>长截图分段识别，适合聊天记录、整页文档</li>
+            <li>Grounding 与像素对比，能定位「差了几个像素」</li>
+            <li>工具按需加载，不用时不吃上下文预算</li>
+          </ul>
+          <div class="p-tags"><span>UI 还原</span><span>像素对比</span><span>长截图 OCR</span></div>
+          <div class="p-install">
+            <code>dsh plugin --profile web add github:Anionex/dsh-vision-toolkit</code>
+            <button class="copy" data-copy="dsh plugin --profile web add github:Anionex/dsh-vision-toolkit">复制</button>
+          </div>
+          <p class="p-note"><b>注意</b>和 modlens 功能重叠。先装 modlens 试水，确实需要像素级还原再换它，别两个一起开。</p>
+        </article>
+
+        <!-- 11 -->
+        <article class="p-card reveal" id="p-composio" data-cat="integration">
+          <div class="p-head">
+            <span class="p-rank">11</span>
+            <div class="p-title">
+              <h3>Composio <span class="p-owner">/ composio.dev</span></h3>
+              <p class="p-sub">1,500+ SaaS 集成</p>
+            </div>
+            <span class="p-star p-star--na">— 商业服务</span>
+          </div>
+          <p class="p-desc">让 Agent 不只活在代码目录里。通过一个 CLI 接入 GitHub、Slack、Gmail、Linear、Calendar 等 1,500+ 应用，OAuth、API Key、scope、token 刷新都由它托管，不用为每个 SaaS 单独写一个插件。</p>
+          <ul class="p-points">
+            <li>一个集成层替代十几个碎片化插件</li>
+            <li>托管认证与凭据刷新，省掉最容易出事的一环</li>
+            <li>用 shell 就能调用，不强制额外配 MCP server</li>
+          </ul>
+          <div class="p-tags"><span>SaaS 集成</span><span>OAuth 托管</span><span>CLI</span></div>
+          <div class="p-install">
+            <code>composio login</code>
+            <button class="copy" data-copy="composio login">复制</button>
+          </div>
+          <p class="p-note"><b>注意</b>商业服务，数据会经过其云端。先用免费额度跑通一条只读流程，再决定是否接生产账号。</p>
+        </article>
+
+        <!-- 12 -->
+        <article class="p-card p-card--wide reveal" id="p-openviking" data-cat="context">
+          <div class="p-head">
+            <span class="p-rank">12</span>
+            <div class="p-title">
+              <h3>OpenViking <span class="p-owner">/ volcengine</span></h3>
+              <p class="p-sub">团队级记忆与知识库</p>
+            </div>
+            <span class="p-star"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>40.8k</span>
+          </div>
+          <p class="p-desc">火山引擎开源的 Agent 上下文数据库：统一记忆、知识 RAG 与 Skills 管理，并提供 DSH 记忆插件。它解决的不是「记住我的偏好」，而是「整个团队的知识如何被 Agent 检索和复用」。星标很高，但接入门槛也最高。</p>
+          <ul class="p-points">
+            <li>记忆、知识库、技能统一到一个上下文层</li>
+            <li>适合已有文档资产、要做团队级 RAG 的场景</li>
+            <li>可作为 dsh-mnemon 的 Memory Space 后端之一</li>
+          </ul>
+          <div class="p-tags"><span>团队知识库</span><span>RAG</span><span>需自建服务</span></div>
+          <div class="p-install p-install--text">先部署或接入 OpenViking 服务，再按插件文档配置。只记几条偏好的人，用 dsh-mnemon 就够了。 <a href="https://github.com/volcengine/OpenViking" target="_blank" rel="noopener">打开仓库 →</a></div>
+          <p class="p-note"><b>注意</b>它是平台，不是「装完即用」的小插件。没有运维预算时，别把它当记忆插件的默认选项。</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STACKS ================= -->
+  <section id="stacks" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <p class="kicker">Recipes</p>
+          <h2>别全装。按你的工作流选一套</h2>
+          <p>插件之间会抢界面、抢上下文、抢快捷键。下面三套组合经过取舍，每一套都只保留必要的重叠。</p>
+        </div>
+      </div>
+
+      <div class="stacks">
+        <div class="stack reveal">
+          <div class="stack-label">Recipe 01 · 轻量起步</div>
+          <h3>先把体验拉直</h3>
+          <p>适合第一次用 DSH、只想解决「找插件、少切窗口、能看图」的人。15 分钟，三次重启。</p>
+          <ol class="steps">
+            <li><b>dsh-market</b><span>先有市场，后面都在界面里装</span></li>
+            <li><b>DSH-better-sidebar</b><span>文件、终端、Git 一步到位</span></li>
+            <li><b>modlens</b><span>截图能看懂，排错效率翻倍</span></li>
+          </ol>
+          <div class="stack-foot">预期结果：<b>不切窗口完成「改代码 → 跑测试 → 看截图」</b></div>
+        </div>
+
+        <div class="stack reveal">
+          <div class="stack-label">Recipe 02 · 长任务工作台</div>
+          <h3>让任务不断片</h3>
+          <p>适合一个任务跑几十分钟、经常被上下文压缩打断的人。重点是「看得见 + 记得住」。</p>
+          <ol class="steps">
+            <li><b>dsh-context</b><span>先知道上下文花在哪</span></li>
+            <li><b>dsh-mnemon</b><span>跨会话记住决策与偏好</span></li>
+            <li><b>dsh-web</b><span>看板管任务，Git 图谱看改动</span></li>
+          </ol>
+          <div class="stack-foot">预期结果：<b>新会话不用重讲背景，压缩后能接着干</b></div>
+        </div>
+
+        <div class="stack reveal">
+          <div class="stack-label">Recipe 03 · 终端与外部世界</div>
+          <h3>SSH 里也能干活</h3>
+          <p>适合远程开发、需要 Agent 碰浏览器和 SaaS 的人。图形界面不是必需品。</p>
+          <ol class="steps">
+            <li><b>dsh-TUI</b><span>纯键盘，低占用，挂 tmux 里</span></li>
+            <li><b>dsh-browser</b><span>真实登录态，点页面不用截图</span></li>
+            <li><b>Composio</b><span>把 PR、Issue、消息接进来</span></li>
+          </ol>
+          <div class="stack-foot">预期结果：<b>一台服务器 + 一个终端，完成查资料到提 PR</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= INSTALL ================= -->
+  <section id="install" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <p class="kicker">Install &amp; verify</p>
+          <h2>装完必须重启，刷新页面不算</h2>
+          <p>DSH 的插件装在 profile 里。命令把包写进 profile 的组合配置，宿主进程启动时才挂载；只刷新浏览器，新插件不会出现。</p>
+        </div>
+        <div class="head-note"><b>官方命令</b>dsh plugin --profile &lt;name&gt; add</div>
+      </div>
+
+      <div class="install-grid">
+        <div class="code-panel reveal">
+          <div class="code-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><span>PowerShell / bash</span></div>
+          <div class="code-body">
+<pre><span class="c"># 1. 确认 DSH 可用</span>
+dsh --version
+
+<span class="c"># 2. 从 GitHub 装（最通用）</span>
+dsh plugin <span class="k">--profile</span> web add <span class="s">github:owner/repo</span>
+
+<span class="c"># 3. 从 npm 装（有明确包名时）</span>
+dsh plugin <span class="k">--profile</span> web add <span class="p">dsh-mnemon</span>
+
+<span class="c"># 4. 固定 commit，避免上游改坏</span>
+dsh plugin <span class="k">--profile</span> web add <span class="s">github:owner/repo#3f9c2e1</span>
+
+<span class="c"># 5. 检查是否进了组合配置</span>
+dsh <span class="k">--profile</span> web <span class="k">--dump-config</span>
+
+<span class="c"># 6. 重启宿主（不是刷新页面）</span>
+dsh web</pre>
+          </div>
+        </div>
+
+        <div class="install-notes reveal">
+          <div class="note">
+            <span class="note-num">1</span>
+            <div><b>先认 profile</b><p>Web UI 用 <code>web</code>，TUI 和 headless 各有自己的 profile。装错 profile，表现就是「命令成功但界面没变化」。</p></div>
+          </div>
+          <div class="note">
+            <span class="note-num">2</span>
+            <div><b>看包有没有 dsh.bundle</b><p>没有 bundle 声明的包只会作为普通依赖安装，不会激活任何一层。装完没反应，先查这里。</p></div>
+          </div>
+          <div class="note">
+            <span class="note-num">3</span>
+            <div><b>Git 安装会执行构建脚本</b><p>来自 GitHub 的包可能在安装时跑代码。固定 commit、读一遍 package.json 的 scripts，再决定是否放行。</p></div>
+          </div>
+          <div class="note">
+            <span class="note-num">4</span>
+            <div><b>用官方「发现」页接管索引</b><p>设置里打开实验性「自定义插件市场」，添加可信索引 URL；http 索引可被中间人篡改，务必用 https。</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrap reveal">
+        <table>
+          <thead>
+            <tr><th>症状</th><th>最可能的原因</th><th>处理</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>装完毫无变化</td><td>包未声明 dsh.bundle，或装错了 profile</td><td>查 package.json；确认 <code>--profile web</code>；重启宿主</td></tr>
+            <tr><td>页面白屏 / 控制台报错</td><td>插件与宿主版本不匹配</td><td>回滚插件版本。DSH 仍是 developer preview，破坏性变更很正常</td></tr>
+            <tr><td>设置保存失败</td><td>手动把 cordis.patch.yml 的 insert 复制进 profile，出现重复条目</td><td>删掉重复项，让 DSH 自动加载 bundle（mnemon 文档明确警告过）</td></tr>
+            <tr><td>技能或部分插件不生效</td><td>启动时未应用 patch</td><td>试 <code>dsh web --patch</code>。这是社区经验，随版本可能变化</td></tr>
+            <tr><td>dsh-browser 连不上</td><td>只装了包，没装浏览器扩展与桥</td><td>用仓库安装脚本，加载扩展，重启 DSH；检查 <code>/ext/bridge-config</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SAFETY ================= -->
+  <section id="safety" style="padding-top:0">
+    <div class="wrap">
+      <div class="safety reveal">
+        <p class="kicker">Trust boundary</p>
+        <h2>插件不是主题包，它跑在你的进程里</h2>
+        <p class="lead">它能读 API Key、会话日志、工作区文件，也能在本机开端口。DSH 官方明确说：插件是第三方内容，格式会被校验，但声明不会被验证。下面三条不是建议，是底线。</p>
+
+        <div class="rules">
+          <div class="rule"><b><i>01</i>只装声明了 bundle 的包</b><p>没有 <code>dsh.bundle</code> 的仓库，要么还没做完，要么根本不是 DSH 插件。前者等，后者别装。</p></div>
+          <div class="rule"><b><i>02</i>固定 commit，不追 latest</b><p>开发者预览期，上游一次重构就可能让插件拿到你的凭据。写死 SHA，升级前先看 diff。</p></div>
+          <div class="rule"><b><i>03</i>装前读两个文件</b><p>看 <code>cordis.patch.yml</code> 注入了什么，看工具清单能碰什么。读不懂就先别装。</p></div>
+        </div>
+
+        <div class="alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+          <div>
+            <b>特别警惕「免登录、免 Key、不限量」的模型插件</b>
+            <p>一个星标四万的插件声称不登录就能白嫖前沿模型。这类项目的成本一定由别处承担：你的数据、你的机器，或者它随时可能断供。生产机上不要装。</p>
+          </div>
+        </div>
+
+        <div class="alert" style="background:rgba(234,179,8,.08);border-color:rgba(250,204,21,.28)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#fde047" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+          <div>
+            <b>npm 同名抢注已经发生了</b>
+            <p>dsh-browser 的 README 专门声明：npm 上未加 scope 的 <code>dsh-browser</code> 属于另一个项目，与本仓库无关。安装时认 owner 和仓库地址，不要只认包名。</p>
+          </div>
+        </div>
+
+        <div class="safety-foot">
+          <span>dsh-plugin-check · 只读体检清单协议与构建陷阱</span>
+          <span>dsh-security-audit · 配置 / 凭据 / 插件来源 / 暴露面</span>
+          <span>两者都给报告，不改仓库</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= METHOD ================= -->
+  <section id="method" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <p class="kicker">Method &amp; sources</p>
+          <h2>这份榜单是怎么来的</h2>
+          <p>先用 AnySearch 做广度检索，再回到官方文档与仓库逐条核对。星标只是热度，不是推荐理由。</p>
+        </div>
+      </div>
+
+      <div class="method-grid">
+        <div class="method reveal">
+          <p>检索覆盖中英文十余组关键词，分别对应「推荐 / 榜单 / 安装 / 安全」四类意图；候选池来自 GitHub <code>dsh-plugin</code> 话题、社区精选列表与媒体盘点，再用官方文档确认安装方式与版本约束。</p>
+          <ul>
+            <li><b>排序维度：</b>通用性（是否多数人用得上）× 不可替代性（是否只能靠它解决）× 维护活跃度（近期提交与版本跟进）。</li>
+            <li><b>星标口径：</b>取 2026-10-25 的社区星标目录快照，四舍五入到 0.1k；标注「—」表示该目录未收录，或该条目不是 GitHub 仓库。</li>
+            <li><b>排除范围：</b>VSCode 套壳、浏览器侧边栏扩展、纯 API 客户端不进入主榜；客户端、平台与集成层单独标注，避免混为一谈。</li>
+            <li><b>利益披露：</b>本文不含任何推广或返佣；安装命令按官方 <code>dsh plugin</code> 语法与各仓库 README 整理。</li>
+          </ul>
+          <p style="margin-top:22px;font-size:12.5px;color:var(--muted-2)">插件生态仍在快速变化。安装前请以仓库当日 README 为准；若本文与仓库冲突，信仓库。</p>
+        </div>
+
+        <ol class="sources reveal">
+          <li><span class="n">01</span><div><a href="https://deepseek-harness.github.io/deepseek-harness/guide/plugin-market" target="_blank" rel="noopener">DeepSeek Harness 官方文档 · 插件市场</a><small>索引格式、Discover 开关、安装确认与安全边界</small></div></li>
+          <li><span class="n">02</span><div><a href="https://github.com/deepseek-ai/deepseek-harness" target="_blank" rel="noopener">GitHub · deepseek-ai/deepseek-harness</a><small>项目定位、developer preview 警告、261.3k stars</small></div></li>
+          <li><span class="n">03</span><div><a href="https://github.com/GordenSun/awesome-dsh-plugins" target="_blank" rel="noopener">Awesome DSH Plugins</a><small>50 个精选插件的分类与能力边界</small></div></li>
+          <li><span class="n">04</span><div><a href="https://agentplugins-2v1.pages.dev/deepseek-harness-plugins/" target="_blank" rel="noopener">agentplugins · 星标目录</a><small>按 GitHub stars 日更的插件索引，本文星标快照来源</small></div></li>
+          <li><span class="n">05</span><div><a href="https://news.qq.com/rain/a/20261021A0DUAD00" target="_blank" rel="noopener">智东西 · 不可错过的 12 款神器</a><small>崔添翼推荐、dsh-context / dsh-browser / OpenViking 的实际用法</small></div></li>
+          <li><span class="n">06</span><div><a href="https://www.cnblogs.com/xiezhr/p/22560344" target="_blank" rel="noopener">程序员晓凡 · 值得安装的 15 款插件</a><small>星标截面、安装命令与 --patch 踩坑提示</small></div></li>
+          <li><span class="n">07</span><div><a href="https://composio.dev/content/best-deepseek-harness-plugins" target="_blank" rel="noopener">Composio · Best plugins for DeepSeek Harness</a><small>安装范式、dsh-mnemon 与 SaaS 集成视角</small></div></li>
+          <li><span class="n">08</span><div><a href="https://github.com/omdsh-dev/dsh-mnemon" target="_blank" rel="noopener">dsh-mnemon / dsh-browser README</a><small>记忆分层、版本兼容、浏览器桥的安全模型</small></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div><b>DeepSeek 插件精选 · 2026</b> · 由 AnySearch 检索、人工核对整理 · 最后更新 2026-10-26</div>
+    <div>非官方榜单 · 仅供选型参考 · 星标与兼容性以仓库当日状态为准</div>
+  </div>
+</footer>
+
+<button id="toTop" aria-label="回到顶部">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+
+  /* progress */
+  var bar = document.getElementById('progress');
+  var toTop = document.getElementById('toTop');
+  function onScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    var p = max > 0 ? (h.scrollTop || document.body.scrollTop) / max : 0;
+    bar.style.width = (p * 100).toFixed(2) + '%';
+    if ((h.scrollTop || document.body.scrollTop) > 700) { toTop.classList.add('vis'); }
+    else { toTop.classList.remove('vis'); }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  toTop.addEventListener('click', function(){
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  /* reveal */
+  var revealItems = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold:0.08, rootMargin:'0px 0px -40px 0px'});
+    revealItems.forEach(function(el){ io.observe(el); });
+  } else {
+    revealItems.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* filter */
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.p-card'));
+  var countEl = document.getElementById('visibleCount');
+
+  function applyFilter(cat){
+    var shown = 0;
+    cards.forEach(function(card){
+      var cats = (card.getAttribute('data-cat') || '').split(/\s+/);
+      var show = cat === 'all' || cats.indexOf(cat) !== -1;
+      card.classList.toggle('is-hidden', !show);
+      if (show) {
+        shown++;
+        card.classList.add('in');
+      }
+    });
+    countEl.textContent = String(shown);
+  }
+
+  chips.forEach(function(chip){
+    chip.addEventListener('click', function(){
+      chips.forEach(function(c){ c.setAttribute('aria-pressed', 'false'); });
+      chip.setAttribute('aria-pressed', 'true');
+      applyFilter(chip.getAttribute('data-filter'));
+    });
+  });
+
+  /* copy */
+  function fallbackCopy(text){
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly','');
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch(e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.copy'), function(btn){
+    btn.addEventListener('click', function(){
+      var text = btn.getAttribute('data-copy') || '';
+      var done = function(){
+        var old = btn.textContent;
+        btn.textContent = '已复制';
+        btn.classList.add('done');
+        setTimeout(function(){
+          btn.textContent = old;
+          btn.classList.remove('done');
+        }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function(){
+          if (fallbackCopy(text)) { done(); } else { btn.textContent = '请手动复制'; }
+        });
+      } else {
+        if (fallbackCopy(text)) { done(); } else { btn.textContent = '请手动复制'; }
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
